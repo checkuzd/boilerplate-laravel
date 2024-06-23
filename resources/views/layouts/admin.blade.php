@@ -11,8 +11,10 @@
     <!-- Fonts -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <!-- Scripts -->
-    @vite('resources/backend/scss/icons.scss')
+    {{ Vite::useBuildDirectory('backend') }}
     @vite('resources/backend/scss/app.scss')
+    @vite('resources/backend/js/app.js')
+    @vite('resources/backend/js/plugins.js')
     @yield('styles')
 </head>
 
@@ -50,8 +52,6 @@
     </div>
 
     <!-- App js -->
-    @vite('resources/backend/js/app.js')
-    @vite('resources/backend/js/plugins.js')
     @yield('scripts')
 </body>
 

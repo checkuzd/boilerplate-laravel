@@ -192,8 +192,5 @@
     @vite('resources/backend/scss/plugins/menus.scss')
     @vite('resources/backend/scss/plugins/select2.min.css')
 @endsection
-@section('scripts')
-<script type="module" src="{{ Vite::asset('resources/backend/js/assets/menu.js') }}" />
-@endsection
 
 </x-admin-layout>

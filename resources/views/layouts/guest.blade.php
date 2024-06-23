@@ -12,7 +12,6 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         <!-- Scripts -->
         @vite('resources/backend/scss/app.scss')
-        @vite('resources/backend/scss/icons.scss')
     </head>
 
 <body class="authentication-bg pb-0">
