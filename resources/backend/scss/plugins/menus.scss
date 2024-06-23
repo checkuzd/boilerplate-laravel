@@ -1,0 +1,213 @@
+/* Clearfix */
+.currElemClass{
+    padding: 7px;
+    padding-left: 50px;
+}
+ul,
+li {
+    list-style-type: none;
+}
+
+.cf:before,
+.cf:after {
+    content: "";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    zoom: 1;
+}
+
+/* My addition to github theme */
+
+
+.menu-builder-wrapper ul,
+.menu-builder-wrapper li {
+    margin: 0;
+    padding: 0;
+}
+
+.menu-builder-wrapper ul,
+.menu-builder-wrapper li {
+    list-style-type: none;
+    color: #b5e853;
+    border: 1px solid #3f3f3f;
+}
+
+.menu-builder-wrapper ul,
+#menu-builder,
+#sTreePlus {
+    padding: 0;
+    background-color: #151515;
+}
+
+#menu-builder li,
+#sTreePlus li,
+ul#s-l-base li {
+    padding-left: 50px;
+    margin: 5px;
+    border: 1px solid #3f3f3f;
+    background-color: #3f3f3f;
+}
+
+.menu-builder-wrapper li .menu-content {
+    padding: 7px;
+    background-color: #222;
+}
+
+.menu-builder-wrapper li,
+.menu-builder-wrapper ul,
+.menu-builder-wrapper .menu-content {
+    border-radius: 3px;
+}
+
+.c1 {
+    color: #b5e853;
+}
+
+.c2 {
+    color: #63c0f5;
+}
+
+.c3 {
+    color: #f77720;
+}
+
+.c4 {
+    color: #888;
+}
+
+.c5 {
+    color: #666667;
+}
+
+.c6 {
+    color: #888;
+}
+
+.bgC1,
+.gray {
+    background-color: #ccc;
+}
+
+.bgC2,
+.yellow {
+    background-color: #ff8;
+}
+
+.bgC3,
+.red {
+    background-color: #ff9999;
+}
+
+.bgC4,
+.blue {
+    background-color: #aaaaff;
+}
+
+.bgC5,
+.green {
+    background-color: #99ff99;
+}
+
+.bgC6,
+.gree2 {
+    background-color: #bbffbb;
+}
+
+.bgC7,
+.brown {
+    background-color: #c26b2b;
+}
+
+.pT20 {
+    padding-top: 20px;
+}
+
+.pV10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.pR {
+    position: relative;
+}
+
+.t10 {
+    top: 10px;
+}
+
+.dN {
+    display: none;
+}
+
+.zI1000 {
+    z-index: 1000;
+}
+
+.small1 {
+    font-size: 0.8em;
+}
+
+.small2 {
+    font-size: 0.7em;
+}
+
+.small3 {
+    font-size: 0.6em;
+}
+
+.tAR {
+    text-align: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.menu-builder-wrapper img.descPicture {
+    display: block;
+    width: 100%;
+    margin: 0 7px 30px 0;
+    float: left;
+    cursor: pointer;
+    /*transition: all 0.5s ease;*/
+}
+
+.menu-builder-wrapper img.descPicture.descPictureClose {
+    width: 150px;
+}
+
+
+#s-l-hint{
+    li{
+        list-style: none;
+    }
+}
+
+.add-menu-item {
+    input,
+    .select-wrapper {
+        width: 180px !important;
+    }
+}
+.menu-structure {
+    .menu-body {
+        border: 1px solid #e6e8ea;
+        padding: 10px;
+    }
+    .menu-name-form {
+        padding: 10px var(--ct-card-spacer-x);
+        background-color: #e6e8ea;
+    }
+    .menu-footer {
+        position: sticky;
+        bottom: 0;
+        background-color: #e6e8ea;
+        padding: 10px;
+    }
+}
