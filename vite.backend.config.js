@@ -6,9 +6,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/backend/scss/app.scss',
-                'resources/backend/scss/icons.scss',
                 'resources/backend/js/app.js',
-                'resources/backend/js/plugins.js',
+                'resources/backend/js/plugins.js'
             ],
             refresh: true,
             buildDirectory: '/backend',
