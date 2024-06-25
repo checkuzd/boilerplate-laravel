@@ -4,11 +4,11 @@
             <span>
             {{ $menuItem->name }}
             </span>
-            <div>
-                <span data-id="{{ $menuItem->id }}" data-action="{{ route('admin.menu-items.edit', $menuItem->id) }}" class="open-menu-item menu-item-clickable cursor-pointer">
-                    Edit |
+            <div class="menu-options">
+                <span data-id="{{ $menuItem->id }}" data-action="{{ route('admin.menu-items.edit', $menuItem->id) }}" class="open-menu-item menu-item-clickable btn btn-sm btn-primary">
+                    Edit
                 </span>
-                <span data-id="{{ $menuItem->id }}" data-action="{{ route('admin.menu-items.destroy', $menuItem->id) }}" class="delete-menu-item menu-item-clickable cursor-pointer">
+                <span data-id="{{ $menuItem->id }}" data-action="{{ route('admin.menu-items.destroy', $menuItem->id) }}" class="delete-menu-item menu-item-clickable btn btn-sm btn-danger">
                     Delete
                 </span>
             </div>

@@ -8,10 +8,11 @@ export function initMenuTree() {
     var options = {
         maxLevels: 2,
         insertZonePlus: true,
-        // placeholderCss: { 'background-color': '#ff8' },
+        // placeholderCss: { 'background-color': '#ff8', 'padding': '5px' },
+        placeholderCss: { 'background-color': '#ffe75f' },
         hintCss: { 'background-color': '#bbf' },
-        currElClass: 'currElemClass',
-        currElCss: { 'background-color': 'green', 'color': '#fff' },
+        // currElClass: 'currElemClass',
+        // currElCss: { 'background-color': 'green', 'color': '#fff' },
         isAllowed: function (cEl, hint, target) {
             if (target.data('module') === 'c' && cEl.data('module') !== 'c') {
                 hint.css('background-color', '#ff9999');
@@ -23,8 +24,19 @@ export function initMenuTree() {
             }
         },
         opener: {
-            as: 'class',
-            active: false,
+            active: true,
+            as: 'html',  // if as is not set plugin uses background image
+            close: '<i class="mdi mdi-minus-thick c3"></i>',  // or 'fa-minus c3'
+            open: '<i class="mdi mdi-plus-thick"></i>',  // or 'fa-plus'
+            openerCss: {
+                'display': 'inline-block',
+                //'width': '18px', 'height': '18px',
+                'float': 'left',
+                'margin-left': '-40px',
+                'margin-right': '5px',
+                //'background-position': 'center center', 'background-repeat': 'no-repeat',
+                'font-size': '1.1em'
+            }
         },
         ignoreClass: 'menu-item-clickable'
     };

@@ -3,20 +3,18 @@ export default class SortableList {
     constructor(selector, options = {}) {
         this.temp = null;
         this.elements = document.querySelectorAll(selector);
-        this.options = options;
         this.sortable = this.sortable.bind($(this.elements));
-        this.init();
+        this.init(options);
     }
 
     // Initialize the plugin by initializing sortable Element
-    init() {
+    init(options) {
         this.elements.forEach(element => {
-            this.sortable($(element));
+            this.sortable(options);
         });
     }
 
-    sortable() {
-        console.log(this.options);
+    sortable(options) {
         var jQBody = $('body').css('position', 'relative'),
 
             defaults = {
@@ -51,7 +49,8 @@ export default class SortableList {
                         'float': 'left',
                         'display': 'inline-block',
                         'background-position': 'center center',
-                        'background-repeat': 'no-repeat'
+                        'background-repeat': 'no-repeat',
+                        'margin-left': '-40px'
                     },
                     openerClass: ''
                 },
@@ -69,7 +68,7 @@ export default class SortableList {
                 complete: function (cEl) { return true; }  // Params: current el.
             },
 
-            setting = $.extend(true, {}, defaults, this.options),
+            setting = $.extend(true, {}, defaults, options),
 
             // base element from which is counted position of draged element
             base = $('<' + setting.listSelector + ' />')
@@ -123,7 +122,7 @@ export default class SortableList {
         else {
             console.error('jQuerySortableLists opener as background image has been removed with release 2.0.0. Use html instead please.');
         }
-
+        console.log(setting);
         // Container with all actual elements and parameters
         var state = {
             isDragged: false,
@@ -159,10 +158,10 @@ export default class SortableList {
                     opener.clone(true).prependTo(li.children('div').first());
 
                     if (!li.hasClass('s-l-open')) {
-                        close(li);
+                        open(li);
                     }
                     else {
-                        open(li);
+                        close(li);
                     }
                 }
             });
@@ -212,7 +211,7 @@ export default class SortableList {
                 elML = parseInt(el.css('margin-left')),
                 elMR = parseInt(el.css('margin-right')),
                 elXY = el.offset(),
-                elIH = el.innerHeight();
+                elIH = el.outerHeight();
 
             state.rootEl = {
                 el: rEl,
@@ -234,7 +233,7 @@ export default class SortableList {
             var placeholderNode = state.placeholderNode = $('#s-l-placeholder');  // jQuery object && document node
 
             el.css({
-                'width': el.width(),
+                'width': el.outerWidth(),
                 'position': 'absolute',
                 'top': elXY.top - elMT,
                 'left': elXY.left - elML

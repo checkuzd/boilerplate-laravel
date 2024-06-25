@@ -162,11 +162,11 @@
                                             <span>
                                             {{ $menuItem->name }}
                                             </span>
-                                            <div>
-                                                <span data-id="{{ $menu->id }}" data-action="{{ route('admin.menu-items.edit', $menuItem->id) }}" class="open-menu-item menu-item-clickable cursor-pointer">
+                                            <div class="menu-options">
+                                                <span data-id="{{ $menu->id }}" data-action="{{ route('admin.menu-items.edit', $menuItem->id) }}" class="open-menu-item menu-item-clickable btn btn-sm btn-primary">
                                                     Edit
-                                                </span> |
-                                                <span data-id="{{ $menu->id }}" data-action="{{ route('admin.menu-items.destroy', $menuItem->id) }}" class="delete-menu-item menu-item-clickable cursor-pointer">
+                                                </span>
+                                                <span data-id="{{ $menu->id }}" data-action="{{ route('admin.menu-items.destroy', $menuItem->id) }}" class="delete-menu-item menu-item-clickable btn btn-sm btn-danger">
                                                     Delete
                                                 </span>
                                             </div>
