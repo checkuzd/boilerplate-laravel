@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Image\Manipulations;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -70,7 +70,7 @@ class User extends Authenticatable implements HasMedia
         $this->addMediaCollection('avatar')
             ->singleFile()
             ->registerMediaConversions(function (Media $media) {
-                $this->addMediaConversion('thumb')->fit(Manipulations::FIT_CROP, 100, 100);
+                $this->addMediaConversion('thumb')->fit(Fit::Crop, 100, 100);
             });
     }
 }
