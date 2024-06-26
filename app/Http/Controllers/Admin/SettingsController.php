@@ -25,7 +25,7 @@ class SettingsController extends Controller
     {
         $data = $request->except(['_token', '_method', 'logo', 'logo-sm']);
 
-        if($request->hasFile('logo')){
+        if($request->hasFile('logo')) {
             $request->validate([
                 'logo' => 'nullable|image|max:1024',
             ]);
@@ -33,7 +33,7 @@ class SettingsController extends Controller
             $request->file('logo')->storeAs('public', 'logo.png');
         }
 
-        if($request->hasFile('logo-sm')){
+        if($request->hasFile('logo-sm')) {
             $request->validate([
                 'logo-sm' => 'nullable|image|max:1024',
             ]);

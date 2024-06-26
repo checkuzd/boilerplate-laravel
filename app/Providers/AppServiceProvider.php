@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\MenuLocation;
 use App\Services\MenuService;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
@@ -17,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
+
     }
 
     /**
@@ -30,14 +35,14 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading(!app()->isProduction());
     }
 
-    function initSuperAdmin() : void
+    public function initSuperAdmin(): void
     {
         Gate::before(function ($user, $ability) {
             return $user->hasRole('super-admin') ? true : null;
         });
     }
 
-    protected function registerAdminMenu() : void
+    protected function registerAdminMenu(): void
     {
         View::composer(['layouts.partials.left-sidebar', 'admin.dashboard'], function ($view) {
             $menuService = new MenuService();
@@ -48,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    protected function bootMacros() : void
+    protected function bootMacros(): void
     {
         Component::macro('toast', function ($text) {
             $this->js(<<<JS
