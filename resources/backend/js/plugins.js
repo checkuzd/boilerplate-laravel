@@ -17,4 +17,18 @@ window.addEventListener('load', function () {
     console.log('All the assets are loaded!!!');
     MainJs.init(window, window.$);
     MenuScs.init(window, window.$);
+
+    FilePond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateSize);
+
+    const fileUploadEl = document.querySelectorAll('input.filepond');
+    Array.from(fileUploadEl).forEach(inputElement => {
+        FilePond.create(
+            inputElement,
+            {
+                storeAsFile: true,
+                credits: false,
+                maxFileSize: '1MB'
+            }
+        );
+    });
 });

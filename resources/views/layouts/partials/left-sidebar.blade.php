@@ -7,7 +7,7 @@
             <img src="{{ SettingsHelper::logo() }}" alt="logo">
         </span>
         <span class="logo-sm">
-            <img src="{{ SettingsHelper::logo() }}" alt="small logo">
+            <img src="{{ SettingsHelper::logo('logo-sm') }}" alt="small logo">
         </span>
     </a>
 

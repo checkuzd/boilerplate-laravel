@@ -56,10 +56,12 @@
 
                                     <div class="col-xl-12">
                                         <div class="mb-3">
-                                            <livewire:admin.logo-upload-and-preview :logoType="'big'" />
+                                            <x-admin.input-label for="logo" :value="__('Logo')" />
+                                            <x-admin.logo-upload-preview :fieldName="'logo'" />
                                         </div>
                                         <div class="mb-3">
-                                            <livewire:admin.logo-upload-and-preview :logoType="'small'" />
+                                            <x-admin.input-label for="logo" :value="__('Small Logo')" />
+                                            <x-admin.logo-upload-preview :fieldName="'logo-sm'" />
                                         </div>
                                         <div class="mb-3">
                                             <x-admin.input-label for="website_name" :value="__('Website Name')" />
@@ -79,7 +81,7 @@
                                     <div class="col-xl-12">
                                         <div class="mb-3">
                                             <x-admin.input-label for="social_twitter" :value="__('Twitter')" />
-                                            <x-admin.text-input id="social_twitter" class="form-control" type="text" name="social_twitter" :value="old('social_twitter')" value="{{ SettingsHelper::get('social_twitter') }}" autocomplete="social_twitter" required />
+                                            <x-admin.text-input id="social_twitter" class="form-control" type="text" name="social_twitter" :value="old('social_twitter')" value="{{ SettingsHelper::get('social_twitter') }}" autocomplete="social_twitter" />
                                             <x-admin.input-error :messages="$errors->get('social_twitter')" />
                                             <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>

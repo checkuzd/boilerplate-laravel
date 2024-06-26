@@ -17,8 +17,11 @@ class SettingsHelper
         return $siteSetting->where('key', $field)->value('value');
     }
 
-    public static function logo()
+    public static function logo($logoType = '')
     {
+        if($logoType == 'logo-sm' && Storage::disk('public')->exists('logo-sm.png')) {
+            return Storage::url('logo-sm.png');
+        }
         if (Storage::disk('public')->exists('logo.png')) {
             return Storage::url('logo.png');
         }
