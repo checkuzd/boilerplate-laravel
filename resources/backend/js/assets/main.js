@@ -397,6 +397,20 @@ export function initFormAdvance() {
     }
 }
 
+export function initSettingsFormValidation() {
+    const settingsForm = document.getElementById('settings-form');
+    settingsForm.addEventListener('submit', function () {
+        $(this).find('.invalid-feedback').each(function() {
+            if ($(this).css("display") != "none") {
+                var tabBtn = `[href="#${$(this).closest('.tab-pane').first().attr('id')}"]`;
+                const tabTrigger = new bootstrap.Tab(tabBtn);
+                tabTrigger.show();
+                return false;
+            }
+        })
+    });
+}
+
 export function init() {
     initComponents();
     initPortletCard();
@@ -408,6 +422,7 @@ export function init() {
     initShowHidePassword();
     initFormValidation();
     initFormAdvance();
+    initSettingsFormValidation();
 }
 // init();
 

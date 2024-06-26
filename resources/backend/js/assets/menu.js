@@ -241,14 +241,15 @@ export function initHideModal() {
 }
 
 export function init() {
-    editMenuItemModal = new bootstrap.Modal('#edit-menu-item');
-    editMenuItemModalEl = document.getElementById('edit-menu-item');
-    initLoadMenuItem();
-    initMenuTree();
-    initAddMenuItem();
-    initUpdateMenuItem();
-    initDeleteMenuItem();
-    initSaveMenuTreeOrder();
-    initHideModal();
+    if ($('#menu-builder').length){
+        editMenuItemModal = new bootstrap.Modal('#edit-menu-item');
+        editMenuItemModalEl = document.getElementById('edit-menu-item');
+        initLoadMenuItem();
+        initMenuTree();
+        initAddMenuItem();
+        initUpdateMenuItem();
+        initDeleteMenuItem();
+        initSaveMenuTreeOrder();
+        initHideModal();
+    }
 }
-
