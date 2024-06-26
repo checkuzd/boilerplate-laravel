@@ -228,7 +228,7 @@
     ]
   },
   "resources/backend/js/plugins.js": {
-    "file": "assets/plugins-Cw24PX0S.js",
+    "file": "assets/plugins-CtKeIPc2.js",
     "name": "plugins",
     "src": "resources/backend/js/plugins.js",
     "isEntry": true,
@@ -237,7 +237,7 @@
     ]
   },
   "resources/backend/scss/app.scss": {
-    "file": "assets/app-Dokk5XMU.css",
+    "file": "assets/app-DmTmc86T.css",
     "src": "resources/backend/scss/app.scss",
     "isEntry": true
   }

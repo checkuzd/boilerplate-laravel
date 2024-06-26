@@ -22,7 +22,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="mb-3">
+            <form id="settings-form" action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="mb-3 needs-validation" novalidate >
                 @csrf
                 @method('PATCH')
 
@@ -56,8 +56,10 @@
 
                                     <div class="col-xl-12">
                                         <div class="mb-3">
-                                            <!-- <x-admin.input-file ilabel="Logo" iname="logo" /> -->
-                                            <livewire:admin.logo-upload-and-preview />
+                                            <livewire:admin.logo-upload-and-preview :logoType="'big'" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <livewire:admin.logo-upload-and-preview :logoType="'small'" />
                                         </div>
                                         <div class="mb-3">
                                             <x-admin.input-label for="website_name" :value="__('Website Name')" />
@@ -77,8 +79,9 @@
                                     <div class="col-xl-12">
                                         <div class="mb-3">
                                             <x-admin.input-label for="social_twitter" :value="__('Twitter')" />
-                                            <x-admin.text-input id="social_twitter" class="form-control" type="text" name="social_twitter" :value="old('social_twitter')" value="{{ SettingsHelper::get('social_twitter') }}" autocomplete="social_twitter" />
+                                            <x-admin.text-input id="social_twitter" class="form-control" type="text" name="social_twitter" :value="old('social_twitter')" value="{{ SettingsHelper::get('social_twitter') }}" autocomplete="social_twitter" required />
                                             <x-admin.input-error :messages="$errors->get('social_twitter')" />
+                                            <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
                                     </div>
 
@@ -88,8 +91,9 @@
                                         <div class="col-xl-12">
                                             <div class="mb-3">
                                                 <x-admin.input-label for="email_address" :value="__('Email Address')" />
-                                                <x-admin.text-input id="email_address" class="form-control" type="email" name="email_address" :value="old('email_address')" value="{{ SettingsHelper::get('email_address') }}" required autocomplete="email_address" />
+                                                <x-admin.text-input id="email_address" class="form-control" type="email" name="email_address" :value="old('email_address')" value="{{ SettingsHelper::get('email_address') }}" data-required="1" required autocomplete="email_address" />
                                                 <x-admin.input-error :messages="$errors->get('email_address')" />
+                                                <div class="invalid-feedback">Please fill out this field.</div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
