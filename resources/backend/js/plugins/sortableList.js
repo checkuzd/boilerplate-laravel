@@ -122,7 +122,7 @@ export default class SortableList {
         else {
             console.error('jQuerySortableLists opener as background image has been removed with release 2.0.0. Use html instead please.');
         }
-        console.log(setting);
+
         // Container with all actual elements and parameters
         var state = {
             isDragged: false,

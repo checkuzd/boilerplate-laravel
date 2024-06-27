@@ -80,19 +80,8 @@
                                         </span>
                                     </div>
                                     @endif
-                                    <div
-                                        x-data
-                                        x-init="
-                                            FilePond.registerPlugin(FilePondPluginImagePreview);
-                                            FilePond.create($refs.filepond)
-                                            FilePond.setOptions({
-                                                storeAsFile: true,
-                                                credits: false
-                                            });
-                                        "
-                                    >
-                                        <input name="avatar" type="file" x-ref="filepond" />
-                                    </div>
+
+                                    <x-admin.image-upload-preview :fieldName="'avatar'" />
 
                                     <!-- end file preview template -->
                                 </div>

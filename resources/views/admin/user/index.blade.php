@@ -80,9 +80,7 @@
 
         </div>
     </div>
-    @section('styles')
-        @vite('resources/backend/scss/plugins/datatable.css')
-    @endsection
+    
     @section('scripts')
         <script type="module">
             $('#basic-datatable').DataTable({

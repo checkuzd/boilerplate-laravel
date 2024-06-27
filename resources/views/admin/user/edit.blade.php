@@ -6,7 +6,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}">Users</a></li>
-                        <li class="breadcrumb-item active">Create</li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
                 <h4 class="page-title">Update User</h4>
@@ -76,19 +76,7 @@
                                         </span>
                                     </div>
                                     @endif
-                                    <div
-                                        x-data
-                                        x-init="
-                                            FilePond.registerPlugin(FilePondPluginImagePreview);
-                                            FilePond.create($refs.filepond)
-                                            FilePond.setOptions({
-                                                storeAsFile: true,
-                                                credits: false
-                                            });
-                                        "
-                                    >
-                                        <input name="avatar" type="file" x-ref="filepond" />
-                                    </div>
+                                    <x-admin.image-upload-preview :fieldName="'avatar'" />
                                     <!-- end file preview template -->
                                 </div>
 

@@ -188,9 +188,4 @@
 
     @include('admin.menu.modal.edit-menu-item')
 
-@section('styles')
-    @vite('resources/backend/scss/plugins/menus.scss')
-    @vite('resources/backend/scss/plugins/select2.min.css')
-@endsection
-
 </x-admin-layout>

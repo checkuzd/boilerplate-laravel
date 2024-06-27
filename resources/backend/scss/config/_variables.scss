@@ -139,6 +139,7 @@ $color-contrast-dark:      $gray-900;
 $color-contrast-light:     $white;
 
 // fusv-disable
+$blue-50: tint-color($blue, 90%);
 $blue-100: tint-color($blue, 80%);
 $blue-200: tint-color($blue, 60%);
 $blue-300: tint-color($blue, 40%);
@@ -1456,7 +1457,8 @@ $modal-scale-transform:             scale(1.02);
 // scss-docs-start alert-variables
 $alert-padding-y:               .8rem;
 $alert-padding-x:               1.25rem;
-$alert-margin-bottom:           1rem;
+$alert-margin-top:              1rem;
+$alert-margin-bottom:           0;
 $alert-border-radius:           $border-radius;
 $alert-link-font-weight:        $font-weight-bold;
 $alert-border-width:            $border-width;

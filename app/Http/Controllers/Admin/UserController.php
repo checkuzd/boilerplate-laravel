@@ -81,7 +81,7 @@ class UserController extends Controller
         }
 
         return redirect()
-            ->route('admin.users.index')
+            ->route('admin.users.edit', $user)
             ->with('success', 'User added successfully');
     }
 
@@ -129,7 +129,7 @@ class UserController extends Controller
         }
 
         return redirect()
-            ->route('admin.users.index')
+            ->route('admin.users.edit', $user)
             ->with('success', 'User updated successfully');
     }
 }

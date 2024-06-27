@@ -15,13 +15,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12">
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+        <div class="col-12">            
 
             <form action="{{ route('admin.users.store') }}" method="POST" class="mb-3" enctype="multipart/form-data">
                 @csrf

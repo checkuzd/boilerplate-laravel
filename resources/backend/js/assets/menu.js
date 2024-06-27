@@ -136,9 +136,7 @@ export function initDeleteMenuItem() {
 }
 
 export function initLoadMenuItem() {
-    console.log($('.open-menu-item'));
     $('body').on('click', '.open-menu-item', function (e) {
-        console.log('test');
         e.preventDefault();
         editMenuItemModal.show();
         $.ajax({
@@ -168,7 +166,6 @@ export function initAddMenuItem() {
             cache: false,
             processData: false,
             success: function (response) {
-                console.log(response);
                 $this[0].reset();
                 var item = $(response.view);
                 item.data('insideLevels', 0);

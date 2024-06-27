@@ -1,7 +1,9 @@
 //
 // alert.scss
 //
-
+.alert {
+    margin-top: $alert-margin-top;
+}
 @each $color,
 $value in $theme-colors {
     .alert-#{$color} {

@@ -398,6 +398,9 @@ export function initFormAdvance() {
 }
 
 export function initSettingsFormValidation() {
+    if (!$('#settings-form').length){
+        return;
+    }
     const settingsForm = document.getElementById('settings-form');
     settingsForm.addEventListener('submit', function () {
         $(this).find('.invalid-feedback').each(function() {
