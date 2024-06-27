@@ -17,6 +17,10 @@ class PermissionAndRoleSeeder extends Seeder
             'permission_id' => $permission_category->id,
             'name' => 'site-settings',
         ]);
+        Permission::create([
+            'permission_id' => $permission_category->id,
+            'name' => 'menu-settings',
+        ]);
         $permission_category = Permission::create(['name' => 'Role Management']);
         Permission::create([
             'permission_id' => $permission_category->id,

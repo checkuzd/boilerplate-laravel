@@ -66,3 +66,11 @@ textarea:focus,
     box-shadow: 0 0 0 1px $primary;
     outline: 2px solid transparent;
 }
+
+.can-manage {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
