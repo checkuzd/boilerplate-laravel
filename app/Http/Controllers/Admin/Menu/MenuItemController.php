@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin\Menu;
 
 use App\Http\Controllers\Controller;
 use App\Models\Menu\MenuItem;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class MenuItemController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validatedData = $request->validate([
             'name' => 'required',
@@ -29,7 +30,7 @@ class MenuItemController extends Controller
 
         return response()->json([
             'msg' => 'Menu Item addded successfully!',
-            'view' => view('admin.ajax.menu.menu', compact('menuItem'))->render(),
+            'view' => view('admin.ajax.menu.menu-item', compact('menuItem'))->render(),
         ]);
     }
 

@@ -9,7 +9,7 @@
     <title>{{ SettingsHelper::get('website_name') }}</title>
 
     <!-- Fonts -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ SettingsHelper::getFavicon() }}">
     <!-- Scripts -->
     {{ Vite::useBuildDirectory('backend') }}
     @vite('resources/backend/scss/app.scss')

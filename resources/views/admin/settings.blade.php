@@ -56,11 +56,15 @@
 
                                     <div class="col-xl-12">
                                         <div class="mb-3">
-                                            <x-admin.input-label for="logo" :value="__('Logo')" />
+                                            <x-admin.input-label :value="__('Favicon')" />
+                                            <x-admin.logo-upload-preview :fieldName="'favicon'" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <x-admin.input-label :value="__('Logo')" />
                                             <x-admin.logo-upload-preview :fieldName="'logo'" />
                                         </div>
                                         <div class="mb-3">
-                                            <x-admin.input-label for="logo" :value="__('Small Logo')" />
+                                            <x-admin.input-label :value="__('Small Logo')" />
                                             <x-admin.logo-upload-preview :fieldName="'logo-sm'" />
                                         </div>
                                         <div class="mb-3">
