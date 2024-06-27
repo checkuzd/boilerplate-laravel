@@ -31,11 +31,9 @@ class PermissionController extends Controller
             'permission_id' => 'nullable|exists:permissions,id',
         ]);
 
-        Permission::create($validatedData);
+        $permission = Permission::create($validatedData);
 
-        return redirect()
-            ->route('admin.permissions.index')
-            ->with('success', 'Permission added successfully');
+        return to_route('admin.permissions.edit', $permission)->with('success', 'Permission added successfully');
     }
 
     public function edit(Permission $permission): View
@@ -56,8 +54,6 @@ class PermissionController extends Controller
         $permission->permission_id = $request->permission_id;
         $permission->save();
 
-        return redirect()
-            ->route('admin.permissions.index')
-            ->with('success', 'Permission added successfully');
+        return to_route('admin.permissions.edit', $permission)->with('success', 'Permission updated successfully');
     }
 }

@@ -82,18 +82,20 @@
 
                             <div class="col-md-12">
                                 <h4>Can Manage</h4>
-                                @foreach ($roles->access_to as $role)
-                                    <div class="form-check">
-                                        <input type="checkbox"
-                                            name="roles[]"
-                                            value="{{ $role->id }}"
-                                            class="form-check-input"
-                                            id="{{ $role->title }}"
-                                            {{ $abilities->contains($role->id) ? 'checked' : '' }}
-                                        />
-                                        <label class="form-check-label" for="{{ $role->title }}">{{ $role->title }}</label>
-                                    </div>
-                                @endforeach
+                                <div class="can-manage">
+                                    @foreach ($roles->access_to as $role)
+                                        <div class="form-check">
+                                            <input type="checkbox"
+                                                name="roles[]"
+                                                value="{{ $role->id }}"
+                                                class="form-check-input"
+                                                id="{{ $role->title }}"
+                                                {{ $abilities->contains($role->id) ? 'checked' : '' }}
+                                            />
+                                            <label class="form-check-label" for="{{ $role->title }}">{{ $role->title }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
 

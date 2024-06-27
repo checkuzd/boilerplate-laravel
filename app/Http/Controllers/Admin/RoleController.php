@@ -68,9 +68,7 @@ class RoleController extends Controller
 
         $current_user_role->access_to()->attach($role->id);
 
-        return redirect()
-            ->route('admin.roles.index')
-            ->with('success', 'Role added successfully');
+        return to_route('admin.roles.edit', $role)->with('success', 'Role added successfully');
     }
 
     public function edit(Role $role): View
@@ -118,8 +116,6 @@ class RoleController extends Controller
         $role->update(request()->only('name', 'title'));
         $role->syncPermissions(request()->only('permissions'));
 
-        return redirect()
-            ->route('admin.roles.index')
-            ->with('success', 'Role updated successfully');
+        return to_route('admin.roles.edit', $role)->with('success', 'Role updated successfully');
     }
 }

@@ -23,12 +23,12 @@ class MenuController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'location' => 'string',
+            'location' => 'string|nullable',
         ]);
 
         Menu::create($validatedData);
 
-        return redirect(route('admin.menus.index'));
+        return to_route('admin.menus.index')->with('success', 'Menu added successfully');
     }
 
     public function edit(Menu $menu)
@@ -61,7 +61,7 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         if ($menu->location) {
-            return redirect()->back()->with('error', 'Menu cannot be deleted');
+            return redirect()->back()->with('error', 'Menu cannot be deleted! (Assigned to a location)');
         }
         $menu->delete();
 
