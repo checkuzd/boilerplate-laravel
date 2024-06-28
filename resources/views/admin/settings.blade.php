@@ -58,14 +58,17 @@
                                         <div class="mb-3">
                                             <x-admin.input-label :value="__('Favicon')" />
                                             <x-admin.logo-upload-preview :fieldName="'favicon'" />
+                                            <x-admin.input-error :messages="$errors->get('favicon')" />
                                         </div>
                                         <div class="mb-3">
                                             <x-admin.input-label :value="__('Logo')" />
                                             <x-admin.logo-upload-preview :fieldName="'logo'" />
+                                            <x-admin.input-error :messages="$errors->get('logo')" />                                    
                                         </div>
                                         <div class="mb-3">
                                             <x-admin.input-label :value="__('Small Logo')" />
                                             <x-admin.logo-upload-preview :fieldName="'logo-sm'" />
+                                            <x-admin.input-error :messages="$errors->get('logo-sm')" />
                                         </div>
                                         <div class="mb-3">
                                             <x-admin.input-label for="website_name" :value="__('Website Name')" />

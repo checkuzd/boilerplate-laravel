@@ -412,9 +412,18 @@ export function initSettingsFormValidation() {
             }
         })
     });
+
+    $(document).ready(function(){
+        $(this).find('.validation-error').each(function () {
+            var tabBtn = `[href="#${$(this).closest('.tab-pane').first().attr('id')}"]`;
+            const tabTrigger = new bootstrap.Tab(tabBtn);
+            tabTrigger.show();
+            return false;
+        });
+    })
 }
 
-export function init() {
+export function init() {    
     initComponents();
     initPortletCard();
     initMultiDropdown();

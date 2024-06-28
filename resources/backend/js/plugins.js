@@ -3,7 +3,7 @@ import * as bootstrap from 'bootstrap';
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-responsive-bs5';
 import select2 from 'select2';
-import SimpleBar from 'simplebar';
+// import SimpleBar from 'simplebar';
 import * as MainJs from './assets/main';
 import * as MenuScs from "./assets/menu";
 

@@ -9,7 +9,7 @@
                         <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Update User</h4>
+                <h4 class="page-title">Edit User</h4>
             </div>
         </div>
     </div>
