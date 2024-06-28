@@ -6,20 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu\Menu;
 use App\Models\Menu\MenuItem;
 use App\Services\RouteService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\View;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $menus = Menu::all();
 
         return view('admin.menu.index', compact('menus'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => 'required',
@@ -31,7 +33,7 @@ class MenuController extends Controller
         return to_route('admin.menus.index')->with('success', 'Menu added successfully');
     }
 
-    public function edit(Menu $menu)
+    public function edit(Menu $menu): View
     {
         $menu->load(['menuItems' => fn ($query) => $query->whereNull('menu_item_id')->with('children')->orderBy('order', 'ASC')]);
 
@@ -41,7 +43,7 @@ class MenuController extends Controller
         return view('admin.menu.edit', compact('menu', 'routes'));
     }
 
-    public function update(Request $request, Menu $menu)
+    public function update(Request $request, Menu $menu): string
     {
         $menu_items = json_decode($request->input('items'));
 
@@ -58,7 +60,7 @@ class MenuController extends Controller
         return 'Menu Order updated successfully!';
     }
 
-    public function destroy(Menu $menu)
+    public function destroy(Menu $menu): RedirectResponse
     {
         if ($menu->location) {
             return redirect()->back()->with('error', 'Menu cannot be deleted! (Assigned to a location)');

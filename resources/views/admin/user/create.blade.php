@@ -62,19 +62,7 @@
                                     <label for="projectname" class="mb-0">Avatar</label>
                                     <p class="text-muted font-14">Recommended thumbnail size 400x400 (px).</p>
 
-                                    <div
-                                        x-data
-                                        x-init="
-                                            FilePond.registerPlugin(FilePondPluginImagePreview);
-                                            FilePond.create($refs.filepond)
-                                            FilePond.setOptions({
-                                                storeAsFile: true,
-                                                credits: false
-                                            });
-                                        "
-                                    >
-                                        <input name="avatar" type="file" x-ref="filepond" />
-                                    </div>
+                                    <x-admin.image-upload-preview :fieldName="'avatar'" />
                                     <!-- end file preview template -->
                                 </div>
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingsHelper
 {
-    public static function get($field)
+    public static function get($field): mixed
     {
         $siteSetting = Cache::rememberForever('site-settings', function () {
             return Setting::all()->keyBy('key');
@@ -17,8 +17,19 @@ class SettingsHelper
         return $siteSetting->where('key', $field)->value('value');
     }
 
-    public static function logo($logoType = '')
+    public static function getFavicon(): string
     {
+        if(Storage::disk('public')->exists('favicon.ico')) {
+            return Storage::url('logo-sm.png');
+        }
+        return config('app.url').Storage::url('placeholder/favicon.ico');
+    }
+
+    public static function logo($logoType = ''): string
+    {
+        if($logoType == 'favicon') {
+            return self::getFavicon();
+        }
         if($logoType == 'logo-sm' && Storage::disk('public')->exists('logo-sm.png')) {
             return Storage::url('logo-sm.png');
         }
@@ -29,7 +40,7 @@ class SettingsHelper
         return config('app.url').Storage::url('placeholder/logo.png');
     }
 
-    public static function getTimeNow()
+    public static function getTimeNow(): int
     {
         return time();
     }
