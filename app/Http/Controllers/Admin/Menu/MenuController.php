@@ -37,8 +37,19 @@ class MenuController extends Controller
     {
         $menu->load(['menuItems' => fn ($query) => $query->whereNull('menu_item_id')->with('children')->orderBy('order', 'ASC')]);
 
-        $routeService = new RouteService('GET', 'api', '', '', '', true);
-        $routes = $routeService->getMethodRoutes(Route::getRoutes());
+        $routeService = new RouteService(
+            method: 'GET',
+            exceptPath: 'api',
+            name: '',
+            path: '',
+            domain: '',
+            exceptVendor: true
+        );
+
+        $routes = Cache::rememberForever('admin-get-method-routes', function () use ($routeService) {
+            $cache = $routeService->getMethodRoutes(Route::getRoutes());
+            return $cache;
+        });
 
         return view('admin.menu.edit', compact('menu', 'routes'));
     }

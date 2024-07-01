@@ -20,7 +20,7 @@ class SettingsHelper
     public static function getFavicon(): string
     {
         if(Storage::disk('public')->exists('favicon.ico')) {
-            return Storage::url('logo-sm.png');
+            return Storage::url('favicon.ico');
         }
         return config('app.url').Storage::url('placeholder/favicon.ico');
     }
