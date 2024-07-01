@@ -27,11 +27,7 @@ class RolePolicy
 
     public function update(User $user, Role $role): bool
     {
-        if ($user->cannot('role-update')) {
-            return false;
-        }
-
-        if ($role->id == auth()->user()->getRoleId()) {
+        if ($user->cannot('role-update') || $role->id == auth()->user()->getRoleId()) {
             return false;
         }
 
@@ -47,24 +43,6 @@ class RolePolicy
     }
 
     public function delete(User $user, Role $role): bool
-    {
-        if ($user->can('role-delete')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function restore(User $user, Role $role): bool
-    {
-        if ($user->can('role-restore')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function forceDelete(User $user, Role $role): bool
     {
         if ($user->can('role-delete')) {
             return true;

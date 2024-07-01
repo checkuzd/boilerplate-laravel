@@ -423,6 +423,27 @@ export function initSettingsFormValidation() {
     })
 }
 
+export function initConfirmDeleteModal() {
+    $('body').on('click', '.open-delete-modal', function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#73a7e9',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $this.parent('form').submit();
+            }
+        })
+    });
+}
+
 export function init() {    
     initComponents();
     initPortletCard();
@@ -435,7 +456,5 @@ export function init() {
     initFormValidation();
     initFormAdvance();
     initSettingsFormValidation();
+    initConfirmDeleteModal();
 }
-// init();
-
-// })(widnow.$)

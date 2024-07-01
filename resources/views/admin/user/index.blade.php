@@ -25,11 +25,13 @@
             <div class="card">
                 <div class="card-body">
 
+                    @can('user-create')
                     <div class="row mb-3">
                         <div class="col-sm-6">
                             <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="mdi mdi-plus-circle me-2"></i>Add New User</a>
                         </div>
                     </div>
+                    @endcan
 
                     <div class="row">
 
@@ -48,23 +50,55 @@
                                 @foreach ($users as $user)
                                 <tr>
                                     <td>
+                                        @can('user-update')
                                         <a href="{{ route('admin.users.edit', $user->id) }}" class="d-flex align-items-center gap-2">
+                                        @endcan
                                             <div class="avatar-sm">
                                                 <span class="avatar-title bg-#666-lighten rounded-circle text-uppercase">
                                                     <img width="50" height="50" src="{{ $user->getFirstMediaUrl('avatar', 'thumb') }}" alt="{{ $user->short_name }}" />
                                                 </span>
                                             </div>
                                             {{ $user->full_name }}
+                                        @can('user-update')
                                         </a>
+                                        @endcan
                                     </td>
                                     <td>{{ $user->getRoleTitles()->first() }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
+                                        @can('user-update')
                                         <livewire:admin.user-status :user_id="$user->id" :status="$user->status" />
+                                        @else
+                                        <div>
+                                            <input type="checkbox"
+                                                id="switch{{ $user->id }}"
+                                                disabled
+                                                data-switch="success"
+                                                {{ ($user->status) ? 'checked' : '' }} 
+                                            />
+                                            <label
+                                                for="switch{{ $user->id }}"
+                                                data-on-label="Yes"
+                                                data-off-label="No"
+                                                class="mb-0 d-block"
+                                            >
+                                            </label>
+                                        </div>
+                                        @endcan
                                     </td>
                                     <td class="table-action">
-                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                        <div class="d-flex">
+                                            @can('user-update')
+                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                                            @endcan
+                                            @can('user-delete')
+                                                <form method="POST" action="{{ route('admin.users.destroy', $user->id) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="#" class="action-icon open-delete-modal"> <i class="mdi mdi-delete"></i></a>
+                                            </form>
+                                            @endcan
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach

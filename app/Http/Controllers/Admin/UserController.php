@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     public function index(): View
     {
         if (auth()->user()->hasRole('super-admin')) {
@@ -131,5 +136,12 @@ class UserController extends Controller
         return redirect()
             ->route('admin.users.edit', $user)
             ->with('success', 'User updated successfully');
+    }
+
+    public function destroy(User $user): RedirectResponse
+    {
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully');
     }
 }

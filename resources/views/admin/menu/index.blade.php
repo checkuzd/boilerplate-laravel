@@ -84,7 +84,7 @@
 
         </div>
     </div>
-    
+
     @section('scripts')
     <script type="module">
         $(document).ready(function () {
