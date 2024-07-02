@@ -37,6 +37,11 @@ class AuthController extends Controller
                 ->withInput($request->all());
         }
 
+        if(!$user->hasPermissionTo('admin-dashboard')) {
+            return back()->withErrors(['username' => ['You are in the wrong place!!!']])
+                ->withInput($request->all());
+        }
+
         Auth::login($user, $request->remember);
 
         return redirect()->route('admin.dashboard');

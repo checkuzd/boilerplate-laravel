@@ -14,6 +14,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $roles = [
+            'admin' => 'admin',
+            'customer' => 'customer',
+        ];
+
         $user = User::create([
             'first_name' => 'Super',
             'last_name' => 'Admin',
@@ -22,8 +27,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'status' => true,
         ]);
-        $role = Role::create(['name' => 'super-admin', 'title' => 'Super Admin']);
-        $user->assignRole($role);
+
+        $user->assignRole('super-admin');
 
         $user = User::create([
             'first_name' => 'Admin',
@@ -33,18 +38,26 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'status' => true,
         ]);
-        $role = Role::create(['name' => 'admin', 'title' => 'Admin']);
-        $user->assignRole($role);
+
+        $user->assignRole($roles['admin']);
 
         $user = User::create([
-            'first_name' => 'User',
+            'first_name' => 'Customer',
             'last_name' => '',
-            'username' => 'user',
-            'email' => 'user@test.com',
+            'username' => 'customer',
+            'email' => 'customer@test.com',
             'password' => Hash::make('12345678'),
             'status' => true,
         ]);
-        $role = Role::create(['name' => 'user', 'title' => 'User']);
-        $user->assignRole($role);
+
+        $user->assignRole($roles['customer']);
+
+        foreach ($roles as $key => $role) {
+            User::factory()
+                ->withRole($role)
+                ->count(100)
+                ->create();
+        }
+
     }
 }
