@@ -37,7 +37,7 @@ class AuthController extends Controller
                 ->withInput($request->all());
         }
 
-        if(!$user->hasPermissionTo('admin-dashboard')) {
+        if(!$user->can('admin-dashboard')) {
             return back()->withErrors(['username' => ['You are in the wrong place!!!']])
                 ->withInput($request->all());
         }
