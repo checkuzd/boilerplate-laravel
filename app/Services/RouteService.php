@@ -8,11 +8,17 @@ use Illuminate\Support\Str;
 class RouteService
 {
     private $name;
+
     private $path;
+
     private $method;
+
     private $domain;
+
     private $exceptVendor;
+
     private $onlyVendor;
+
     private $exceptPath;
 
     public function __construct(
@@ -54,12 +60,12 @@ class RouteService
 
     protected function filterRoute(array $route)
     {
-        if (($this->name && !Str::contains((string) $route['name'], $this->name)) ||
-            ($this->path && !Str::contains($route['uri'], $this->path)) ||
-            ($this->method && !Str::contains($route['method'], strtoupper($this->method))) ||
-            ($this->domain && !Str::contains((string) $route['domain'], $this->domain)) ||
+        if (($this->name && ! Str::contains((string) $route['name'], $this->name)) ||
+            ($this->path && ! Str::contains($route['uri'], $this->path)) ||
+            ($this->method && ! Str::contains($route['method'], strtoupper($this->method))) ||
+            ($this->domain && ! Str::contains((string) $route['domain'], $this->domain)) ||
             ($this->exceptVendor && $route['vendor']) ||
-            ($this->onlyVendor && !$route['vendor'])) {
+            ($this->onlyVendor && ! $route['vendor'])) {
             return;
         }
 
@@ -78,7 +84,7 @@ class RouteService
     {
         if ($route->action['uses'] instanceof \Closure) {
             $path = (new \ReflectionFunction($route->action['uses']))
-                                ->getFileName();
+                ->getFileName();
         } elseif (is_string($route->action['uses']) &&
                   str_contains($route->action['uses'], 'SerializableClosure')) {
             return false;
@@ -88,7 +94,7 @@ class RouteService
             }
 
             $path = (new \ReflectionClass($route->getControllerClass()))
-                                ->getFileName();
+                ->getFileName();
         } else {
             return false;
         }

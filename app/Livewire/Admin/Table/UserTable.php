@@ -5,22 +5,16 @@ namespace App\Livewire\Admin\Table;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
-use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
-use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class UserTable extends PowerGridComponent
 {
@@ -62,10 +56,10 @@ final class UserTable extends PowerGridComponent
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('users.id', '!=', auth()->user()->id);
 
-        if (!auth()->user()->hasRole('super-admin')) {
+        if (! auth()->user()->hasRole('super-admin')) {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                            ->where('id', auth()->user()->getRoleId())
-                            ->first();
+                ->where('id', auth()->user()->getRoleId())
+                ->first();
             $roles = $roles->access_to->pluck('id')->toArray();
 
             $users->whereIn('roles.id', $roles);
@@ -126,8 +120,8 @@ final class UserTable extends PowerGridComponent
                 ->sortable(),
 
             Column::action('Action')->hidden(
-                isHidden: !auth()->user()->can('user-delete') && !auth()->user()->can('user-update')
-            )
+                isHidden: ! auth()->user()->can('user-delete') && ! auth()->user()->can('user-update')
+            ),
         ];
     }
 
@@ -140,10 +134,9 @@ final class UserTable extends PowerGridComponent
         $this->toast('User status updated successfully!');
     }
 
-
     public function filters(): array
     {
-        if(auth()->user()->hasRole('super-admin')) {
+        if (auth()->user()->hasRole('super-admin')) {
             $roles = Role::select('id', 'title')->get();
         } else {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])

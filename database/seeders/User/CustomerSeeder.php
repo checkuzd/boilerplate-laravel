@@ -2,36 +2,36 @@
 
 namespace Database\Seeders\User;
 
-use Closure;
 use App\Models\User;
+use Closure;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class CustomerSeeder extends Seeder
 {
     private int $customerCount = 1000;
+
     private string $userRole = 'customer';
 
     public function run(): void
     {
         $user = User::create([
-                    'first_name' => 'Customer',
-                    'last_name' => '',
-                    'username' => 'customer',
-                    'email' => 'customer@test.com',
-                    'password' => Hash::make('12345678'),
-                    'status' => true,
-                ]);
+            'first_name' => 'Customer',
+            'last_name' => '',
+            'username' => 'customer',
+            'email' => 'customer@test.com',
+            'password' => Hash::make('12345678'),
+            'status' => true,
+        ]);
 
         $user->assignRole('customer');
 
-        $this->command->warn(PHP_EOL . 'Creating shop customers...');
+        $this->command->warn(PHP_EOL.'Creating shop customers...');
         $customers = $this->withProgressBar(
             $this->customerCount,
-            fn () =>
-                User::factory(1)
+            fn () => User::factory(1)
                 ->withRole($this->userRole)
                 ->create()
         );

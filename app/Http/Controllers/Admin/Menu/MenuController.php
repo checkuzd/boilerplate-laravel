@@ -28,9 +28,9 @@ class MenuController extends Controller
             'location' => 'string|nullable',
         ]);
 
-        Menu::create($validatedData);
+        $menu = Menu::create($validatedData);
 
-        return to_route('admin.menus.index')->with('success', 'Menu added successfully');
+        return to_route('admin.menus.edit', $menu)->with('success', 'Menu added successfully');
     }
 
     public function edit(Menu $menu): View
@@ -48,6 +48,7 @@ class MenuController extends Controller
 
         $routes = Cache::rememberForever('admin-get-method-routes', function () use ($routeService) {
             $cache = $routeService->getMethodRoutes(Route::getRoutes());
+
             return $cache;
         });
 

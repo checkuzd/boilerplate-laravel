@@ -9,6 +9,7 @@ use Livewire\Component;
 class UserStatus extends Component
 {
     public $user_id;
+
     public $status;
 
     public function mount($user_id, $status): void
@@ -20,9 +21,9 @@ class UserStatus extends Component
     public function updateStatus(): void
     {
         User::where('id', $this->user_id)
-            ->update(['status' => !$this->status]);
+            ->update(['status' => ! $this->status]);
 
-        $this->status = !$this->status;
+        $this->status = ! $this->status;
 
         $this->toast('User status updated successfully!');
     }

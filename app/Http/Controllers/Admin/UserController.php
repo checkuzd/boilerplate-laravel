@@ -41,14 +41,14 @@ class UserController extends Controller
     {
         $validatedData = request()->only(['first_name', 'username', 'email', 'password', 'role']);
 
-        if (!auth()->user()->hasRole('super-admin')) {
+        if (! auth()->user()->hasRole('super-admin')) {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                        ->where('id', auth()->user()->getRoleId())
-                        ->first();
+                ->where('id', auth()->user()->getRoleId())
+                ->first();
 
             $abilities = $roles->access_to()->pluck('id')->toArray();
 
-            if (!in_array(request()->input('role'), $abilities)) {
+            if (! in_array(request()->input('role'), $abilities)) {
                 return back()
                     ->withErrors(['role' => ['Invald User role.']])
                     ->withInput($request->all());
@@ -90,14 +90,14 @@ class UserController extends Controller
     {
         $validatedData = request()->only(['first_name', 'last_name', 'username', 'email', 'role']);
 
-        if (!auth()->user()->hasRole('super-admin')) {
+        if (! auth()->user()->hasRole('super-admin')) {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
                 ->where('id', auth()->user()->getRoleId())
                 ->first();
 
             $abilities = $roles->access_to()->pluck('id')->toArray();
 
-            if (!in_array(request()->input('role'), $abilities)) {
+            if (! in_array(request()->input('role'), $abilities)) {
                 return back()
                     ->withErrors(['role' => ['Invald User role.']])
                     ->withInput($request->all());

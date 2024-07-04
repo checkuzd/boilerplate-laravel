@@ -6,9 +6,6 @@ use App\Models\Menu\Menu;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
-use phpDocumentor\Reflection\Types\Null_;
-
-use function PHPUnit\Framework\isNull;
 
 class UpdateMenuLocation extends Component
 {
@@ -21,7 +18,7 @@ class UpdateMenuLocation extends Component
     {
         $this->menu_id = $menu_id;
         $menuLocation = Menu::select('location')->find($menu_id)->toArray();
-        $this->location = (!isNull($menuLocation['location']) || $menuLocation['location']) ? explode(',', $menuLocation['location']) : [];
+        $this->location = (! is_null($menuLocation['location']) || $menuLocation['location']) ? explode(',', $menuLocation['location']) : [];
     }
 
     public function updateLocation()

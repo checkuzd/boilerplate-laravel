@@ -30,16 +30,16 @@ class AuthController extends Controller
             ->status()
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             return back()
                 ->withErrors(['username' => ['The username/email does not match our records.']])
                 ->withInput($request->all());
-        } elseif (!Hash::check($request->password, $user->password)) {
+        } elseif (! Hash::check($request->password, $user->password)) {
             return back()->withErrors(['password' => ['The provided password does not match our records.']])
                 ->withInput($request->all());
         }
 
-        if(!$user->can('admin-dashboard')) {
+        if (! $user->can('admin-dashboard')) {
             return back()->withErrors(['username' => ['You are in the wrong place!!!']])
                 ->withInput($request->all());
         }
@@ -57,10 +57,10 @@ class AuthController extends Controller
     public function sendForgotPassword(Request $request)
     {
         $user = User::where(['email' => $request->email])
-                    ->status()
-                    ->first();
+            ->status()
+            ->first();
 
-        if (!$user) {
+        if (! $user) {
             return back()
                 ->withErrors(['email' => ['We can\'t find a user with that email address.']])
                 ->withInput($request->all());
@@ -73,7 +73,6 @@ class AuthController extends Controller
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
             : back()->withErrors(['email' => __($status)]);
-
 
     }
 
@@ -88,6 +87,7 @@ class AuthController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     }
 }
