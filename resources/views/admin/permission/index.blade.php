@@ -33,39 +33,7 @@
 
                     <div class="row">
 
-                        <table id="basic-datatable" class="table table-striped table-centered dt-responsive">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Permissions</th>
-                                    <th>Category</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach ($permissions as $permission)
-                                <tr>
-                                    <td>
-                                        <a href="{{ route('admin.permissions.edit', $permission->id) }}">
-                                            {{ $permission->name }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @if ($permission->parent)
-                                        <h4><span class="badge bg-primary">{{ $permission->parent->name }}</span></h4>
-                                        @else
-                                        <h4><span class="badge badge-outline-primary">Main</span></h4>
-                                        @endif
-                                    </td>
-                                    <td class="table-action">
-                                        <a href="{{ route('admin.permissions.edit', $permission->id) }}" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
-                                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                    </td>
-                                </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <livewire:admin.table.permission-table />
 
                     </div>
                     <!-- end form -->
@@ -77,23 +45,8 @@
     </div>
     
     @section('scripts')
-        <script type="module">
-            $(document).ready(function () {
-                console.log($('body'));
-            $('#basic-datatable').DataTable({
-                keys: true,
-                "language": {
-                    "paginate": {
-                        "previous": "<i class='mdi mdi-chevron-left'>",
-                        "next": "<i class='mdi mdi-chevron-right'>"
-                    }
-                },
-                "drawCallback": function () {
-                    $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
-                }
-            });
-            });
-        </script>
+        {{ Vite::useBuildDirectory('backend') }}
+        @vite('resources/backend/js/powergrid.js')
     @endsection
 
 </x-admin-layout>

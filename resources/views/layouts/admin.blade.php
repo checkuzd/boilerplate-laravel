@@ -12,9 +12,7 @@
     <link rel="shortcut icon" href="{{ SettingsHelper::getFavicon() }}">
     <!-- Scripts -->
     {{ Vite::useBuildDirectory('backend') }}
-    @vite('resources/backend/scss/app.scss')
-    @vite('resources/backend/js/app.js')
-    @vite('resources/backend/js/plugins.js')
+    @vite('resources/backend/scss/app.scss')    
     @yield('styles')
 </head>
 
@@ -52,6 +50,7 @@
     </div>
 
     <!-- App js -->
+    @vite('resources/backend/js/app.js')
     @yield('scripts')
 </body>
 

@@ -30,10 +30,6 @@ html[data-theme="dark"] {
 
 // authentication pages background
 body.authentication-bg {
-    background-image: $auth-bg-pattern-img;
-    background-size: cover;
-    background-position: center;
-
     .account-pages {
         align-items: center;
         display: flex;

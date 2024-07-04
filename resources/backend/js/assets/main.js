@@ -444,6 +444,25 @@ export function initConfirmDeleteModal() {
     });
 }
 
+export function initFilepond() {
+    if (!$('.filepond').length) {
+        return;
+    }
+    FilePond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateSize);
+
+    const fileUploadEl = document.querySelectorAll('input.filepond');
+    Array.from(fileUploadEl).forEach(inputElement => {
+        FilePond.create(
+            inputElement,
+            {
+                storeAsFile: true,
+                credits: false,
+                maxFileSize: '1MB'
+            }
+        );
+    });
+}
+
 export function init() {    
     initComponents();
     initPortletCard();
@@ -457,4 +476,5 @@ export function init() {
     initFormAdvance();
     initSettingsFormValidation();
     initConfirmDeleteModal();
+    initFilepond();
 }

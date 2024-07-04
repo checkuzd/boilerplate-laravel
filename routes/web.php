@@ -14,33 +14,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/', AdminController::class);
-    Route::get('login', [AuthController::class, 'index'])->name('login');
-    Route::post('login', [AuthController::class, 'login']);
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('dashboard', DashboardController::class)->name('dashboard');
-        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
 
-        Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::patch('settings', [SettingsController::class, 'update'])->name('settings.update');
 
-        Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit');
-        Route::patch('settings', [SettingsController::class, 'update'])->name('settings.update');
-
-        Route::resource('users', UserController::class)->except('show');
-        Route::resource('roles', RoleController::class)->except('show');
-        Route::resource('menus', MenuController::class)
-            ->middleware('permission:menu-settings')
-            ->except('show');
-        Route::resource('menu-items', MenuItemController::class)
-            ->middleware('permission:menu-settings')
-            ->except('index', 'show');
-        Route::resource('permissions', PermissionController::class)
-            ->middleware('permission:access-permission')
-            ->except('show');
-    });
+    Route::resource('users', UserController::class)->except('show');
+    Route::resource('roles', RoleController::class)->except('show');
+    Route::resource('menus', MenuController::class)
+        ->middleware('permission:menu-settings')
+        ->except('show');
+    Route::resource('menu-items', MenuItemController::class)
+        ->middleware('permission:menu-settings')
+        ->except('index', 'show');
+    Route::resource('permissions', PermissionController::class)
+        ->middleware('permission:access-permission')
+        ->except('show');
 });

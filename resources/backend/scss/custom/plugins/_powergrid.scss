@@ -1,0 +1,13 @@
+.power_grid.form-control.mb-1.shadow-none.form-select {
+    display: none;
+}
+
+.action-icon {
+    &.edit-action {
+        color: $info;
+    }
+
+    &.delete-action {
+        color: $danger;
+    }
+}

@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -19,14 +20,15 @@ class AuthController extends Controller
             return redirect(route('admin.dashboard'));
         }
 
-        return view('auth.login');
+        return view('admin.auth.login');
     }
 
     public function login(LoginRequest $request): RedirectResponse
     {
         $user = User::where(['email' => $request->username])
-                    ->orWhere(['username' => $request->username])
-                    ->first();
+            ->orWhere(['username' => $request->username])
+            ->status()
+            ->first();
 
         if (!$user) {
             return back()
@@ -47,14 +49,45 @@ class AuthController extends Controller
         return redirect()->route('admin.dashboard');
     }
 
+    public function forgotPassword(): View
+    {
+        return view('admin.auth.forgot-password');
+    }
+
+    public function sendForgotPassword(Request $request)
+    {
+        $user = User::where(['email' => $request->email])
+                    ->status()
+                    ->first();
+
+        if (!$user) {
+            return back()
+                ->withErrors(['email' => ['We can\'t find a user with that email address.']])
+                ->withInput($request->all());
+        }
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
+
+
+    }
+
+    public function resetForgotPassword()
+    {
+        return 'test';
+        // return view('auth.reset-password', ['request' => $request]);
+    }
+
     public function logout(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect('/');
     }
 }
