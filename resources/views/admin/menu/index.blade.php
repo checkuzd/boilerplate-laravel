@@ -39,42 +39,7 @@
 
                     <div class="row">
 
-                        <table id="basic-datatable" class="table table-striped table-centered dt-responsive">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Location</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach ($menus as $menu)
-                                <tr>
-                                    <td>
-                                        <a class="edit-menu" href="{{ route('admin.menus.edit', $menu->id) }}">
-                                            {{ $menu->name }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {{ $menu->location }}
-                                    </td>
-                                    <td class="table-action d-flex">
-                                        <a href="{{ route('admin.menus.edit', $menu->id) }}" class="action-icon edit-menu"> <i class="mdi mdi-pencil"></i></a>
-
-                                    <form method="POST" action="{{ route('admin.menus.destroy', $menu->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <a href="#"
-                                        onclick="event.preventDefault();
-                                                            this.closest('form').submit();" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                    </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <livewire:admin.table.menu-table />
 
                     </div>
                     <!-- end form -->
@@ -86,22 +51,8 @@
     </div>
 
     @section('scripts')
-    <script type="module">
-        $(document).ready(function () {
-            $('#basic-datatable').DataTable({
-                keys: true,
-                "language": {
-                    "paginate": {
-                        "previous": "<i class='mdi mdi-chevron-left'>",
-                        "next": "<i class='mdi mdi-chevron-right'>"
-                    }
-                },
-                "drawCallback": function () {
-                    $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
-                }
-            });
-        });
-    </script>
+        {{ Vite::useBuildDirectory('backend') }}
+        @vite('resources/backend/js/powergrid.js')
     @endsection
 
 </x-admin-layout>

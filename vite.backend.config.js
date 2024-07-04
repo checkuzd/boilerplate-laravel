@@ -7,7 +7,8 @@ export default defineConfig({
             input: [
                 'resources/backend/scss/app.scss',
                 'resources/backend/js/app.js',
-                'resources/backend/js/plugins.js'
+                'resources/backend/js/filepond.js',
+                'resources/backend/js/powergrid.js',
             ],
             refresh: true,
             buildDirectory: '/backend',

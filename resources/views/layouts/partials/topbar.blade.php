@@ -8,15 +8,6 @@
                 <i class="mdi mdi-menu"></i>
             </button>
 
-            <!-- Horizontal Menu Toggle Button -->
-            <button class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
-                <div class="lines">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </button>
-
             <!-- Topbar Search Form -->
             <div class="app-search dropdown d-none d-lg-block">
                 <form>

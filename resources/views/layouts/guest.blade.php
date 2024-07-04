@@ -60,7 +60,6 @@
         </div>
         <!-- end Auth fluid right content -->
     </div>
-    @vite('resources/backend/js/plugins.js')
     @vite('resources/backend/js/app.js')
 </body>
 

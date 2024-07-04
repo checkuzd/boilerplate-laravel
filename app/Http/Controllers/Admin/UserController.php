@@ -20,25 +20,7 @@ class UserController extends Controller
 
     public function index(): View
     {
-        if (auth()->user()->hasRole('super-admin')) {
-            $users = User::withWhereHas('roles')
-                ->where('id', '!=', auth()->user()->id)
-                ->get();
-        } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
-            $roles = $roles->access_to->pluck('id')->toArray();
-
-            $users = User::with('roles')
-                ->whereHas('roles', function ($query) use ($roles) {
-                    $query->whereIn('id', $roles);
-                })
-                ->where('id', '!=', auth()->user()->id)
-                ->get();
-        }
-
-        return view('admin.user.index', compact('users'));
+        return view('admin.user.index');
     }
 
     public function create(): View
