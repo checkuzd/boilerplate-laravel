@@ -25,8 +25,9 @@ class AuthController extends Controller
     public function login(LoginRequest $request): RedirectResponse
     {
         $user = User::where(['email' => $request->username])
-                    ->orWhere(['username' => $request->username])
-                    ->first();
+            ->orWhere(['username' => $request->username])
+            ->status()
+            ->first();
 
         if (!$user) {
             return back()

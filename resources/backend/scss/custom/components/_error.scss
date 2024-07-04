@@ -1,0 +1,21 @@
+.validation-error {
+    background: $red;
+
+    span {
+        display: block;
+        border-bottom: 1px solid;
+        color: white;
+        font-size: 12px;
+        padding: 5px;
+    }
+}
+
+.error {
+    background: $red;
+    display: block;
+    border-bottom: 1px solid;
+    color: white;
+    font-size: 12px;
+    padding: 5px;
+    margin-top: 5px;
+}

@@ -14,7 +14,7 @@ $font-family-primary:      'Nunito', sans-serif;
 $body-text-align:           null;
 
 // Light Mode Body Background and Text Color
-$body-bg:                   #fafbfe;
+$body-bg:                   #f9f9f9;
 $body-color:                #6c757d;
 
 // Dark Mode Body Background and Text Color
@@ -1263,7 +1263,7 @@ $card-title-spacer-y:               $spacer * .5;
 $card-border-width:                 var(--#{$prefix}theme-card-border-width);
 $card-border-color:                 var(--#{$prefix}gray-300);
 $card-border-radius:                $border-radius;
-$card-box-shadow:                   $box-shadow;
+$card-box-shadow:                   0px 0px 3px 1px #d3d3d3;
 $card-inner-border-radius:          subtract($card-border-radius, $card-border-width);
 $card-cap-padding-y:                $card-spacer-y * .75;
 $card-cap-padding-x:                $card-spacer-x;

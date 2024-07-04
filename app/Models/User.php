@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,7 +43,7 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
     ];
 
-    public function getRoleId()
+    public function getRoleId(): Collection
     {
         $this->loadMissing('roles');
 
@@ -58,6 +60,11 @@ class User extends Authenticatable implements HasMedia
     public function getFullNameAttribute(): string
     {
         return $this->first_name.' '.$this->last_name;
+    }
+
+    public function scopeStatus(Builder $query): void
+    {
+        $query->where('status', 1);
     }
 
     public function getShortNameAttribute(): string
