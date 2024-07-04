@@ -2,7 +2,7 @@
 // alert.scss
 //
 .alert {
-    margin-top: $alert-margin-top;
+    margin-bottom: $spacer;
 }
 @each $color,
 $value in $theme-colors {

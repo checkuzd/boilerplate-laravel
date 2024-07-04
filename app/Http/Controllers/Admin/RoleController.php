@@ -100,8 +100,8 @@ class RoleController extends Controller
             $role->access_to()->sync(request()->input('roles'));
         } else {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                        ->where('id', auth()->user()->getRoleId())
-                        ->first();
+                ->where('id', auth()->user()->getRoleId())
+                ->first();
 
             $abilities = $roles->access_to()->pluck('id')->toArray();
 
@@ -117,5 +117,12 @@ class RoleController extends Controller
         $role->syncPermissions(request()->only('permissions'));
 
         return to_route('admin.roles.edit', $role)->with('success', 'Role updated successfully');
+    }
+
+    public function destroy(Role $role): RedirectResponse
+    {
+        $role->delete();
+
+        return redirect()->back()->with('success', 'Role deleted successfully');
     }
 }

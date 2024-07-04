@@ -5,6 +5,7 @@ namespace App\Models\Menu;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MenuItem extends Model
 {
@@ -12,7 +13,7 @@ class MenuItem extends Model
 
     protected $guarded = [];
 
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(static::class, 'menu_item_id')->with('children')->orderBy('order', 'ASC');
     }
