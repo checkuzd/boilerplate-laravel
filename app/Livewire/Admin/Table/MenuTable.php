@@ -54,6 +54,6 @@ final class MenuTable extends PowerGridComponent
 
     public function actionsFromView($row): View
     {
-        return view('admin.dataTable.actions.menu', ['row' => $row, 'model' => 'menu']);
+        return view('admin.dataTable.actions.menu-actions', ['row' => $row, 'model' => 'menu']);
     }
 }

@@ -1,8 +1,15 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-admin.auth-session-status class="mb-4" :status="session('status')" />
+    
+    <!-- title-->
+    <h4 class="mt-0">{{ __('Sign In') }}</h4>
+    <p class="text-muted mb-4">
+        {{ __('Enter your username / email address and password to access account.') }}
+    </p>
 
-    <form method="POST" action="{{ route('admin.login') }}">
+    <!-- form -->
+    <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -19,9 +26,10 @@
             @endif
             <label for="password" class="form-label">Password</label>
             <x-admin.text-input id="password" class="form-control"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                type="password"
+                name="password"
+                required autocomplete="current-password" 
+            />
 
             <x-admin.input-error :messages="$errors->get('password')" />
         </div>
@@ -36,23 +44,8 @@
         <div class="d-grid mb-0 text-center">
             <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i> Log In </button>
         </div>
-        <!-- social-->
-        <div class="text-center mt-4">
-            <p class="text-muted font-16">Sign in with</p>
-            <ul class="social-list list-inline mt-3">
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
-                </li>
-            </ul>
-        </div>
+
     </form>
+    <!-- end form-->
+
 </x-guest-layout>

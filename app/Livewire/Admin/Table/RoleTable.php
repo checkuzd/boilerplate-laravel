@@ -78,6 +78,6 @@ final class RoleTable extends PowerGridComponent
 
     public function actionsFromView($row): View
     {
-        return view('admin.dataTable.actions.model', ['row' => $row, 'model' => 'role']);
+        return view('admin.dataTable.actions.model-actions', ['row' => $row, 'model' => 'role']);
     }
 }

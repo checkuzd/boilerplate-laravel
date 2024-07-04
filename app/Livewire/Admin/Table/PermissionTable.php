@@ -57,6 +57,6 @@ final class PermissionTable extends PowerGridComponent
 
     public function actionsFromView($row): View
     {
-        return view('admin.dataTable.actions.model', ['row' => $row, 'model' => 'permission']);
+        return view('admin.dataTable.actions.model-actions', ['row' => $row, 'model' => 'permission']);
     }
 }

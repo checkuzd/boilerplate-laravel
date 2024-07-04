@@ -164,6 +164,6 @@ final class UserTable extends PowerGridComponent
 
     public function actionsFromView($row): View
     {
-        return view('admin.dataTable.actions.model', ['row' => $row, 'model' => 'user']);
+        return view('admin.dataTable.actions.model-actions', ['row' => $row, 'model' => 'user']);
     }
 }
