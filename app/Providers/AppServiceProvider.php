@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Enums\MenuLocation;
 use App\Services\MenuService;
-use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
@@ -16,13 +17,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        if ($this->app->isLocal()) {
-            $this->app->register(IdeHelperServiceProvider::class);
-        }
-
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
