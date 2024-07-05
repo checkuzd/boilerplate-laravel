@@ -30,22 +30,21 @@ class SettingsController extends Controller
             'logo' => 'image|max:1024',
             'logo-sm' => 'image|max:1024',
             'favicon' => 'mimes:ico|max:1024',
-            'email_address' => 'required|email|max:100'
+            'email_address' => 'required|email|max:100',
         ]);
 
-        if($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
             $settingsService->storeFile($request->file('logo'), 'logo.png');
         }
-        if($request->hasFile('logo-sm')) {
+        if ($request->hasFile('logo-sm')) {
             $settingsService->storeFile($request->file('logo'), 'logo-sm.png');
         }
-        if($request->hasFile('favicon')) {
+        if ($request->hasFile('favicon')) {
             $settingsService->storeFile($request->file('favicon'), 'favicon.ico');
         }
         // $request->file('logo')->storeAs('public', 'logo.png');
         // $request->file('logo-sm')->storeAs('public', 'logo-sm.png');
         // $request->file('logo-sm')->storeAs('public', 'logo-sm.png');
-
 
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);

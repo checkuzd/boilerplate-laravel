@@ -35,7 +35,7 @@ class RolePolicy
             ->where('id', auth()->user()->getRoleId())
             ->first();
 
-        if (!in_array($role->id, $roles->access_to->pluck('id')->toArray())) {
+        if (! in_array($role->id, $roles->access_to->pluck('id')->toArray())) {
             return false;
         }
 

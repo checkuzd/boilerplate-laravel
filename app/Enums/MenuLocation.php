@@ -10,16 +10,16 @@ enum MenuLocation: string
     public function location(): string
     {
         return match ($this) {
-            static::ADMIN => 'admin',
-            static::FRONT_END => 'front_end',
+            self::ADMIN => 'admin',
+            self::FRONT_END => 'front_end',
         };
     }
 
     public function displayLocation(): string
     {
         return match ($this) {
-            static::ADMIN => 'Admin',
-            static::FRONT_END => 'Front End',
+            self::ADMIN => 'Admin',
+            self::FRONT_END => 'Front End',
         };
     }
 }

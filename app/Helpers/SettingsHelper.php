@@ -19,18 +19,19 @@ class SettingsHelper
 
     public static function getFavicon(): string
     {
-        if(Storage::disk('public')->exists('favicon.ico')) {
+        if (Storage::disk('public')->exists('favicon.ico')) {
             return Storage::url('favicon.ico');
         }
+
         return config('app.url').Storage::url('placeholder/favicon.ico');
     }
 
     public static function logo($logoType = ''): string
     {
-        if($logoType == 'favicon') {
+        if ($logoType == 'favicon') {
             return self::getFavicon();
         }
-        if($logoType == 'logo-sm' && Storage::disk('public')->exists('logo-sm.png')) {
+        if ($logoType == 'logo-sm' && Storage::disk('public')->exists('logo-sm.png')) {
             return Storage::url('logo-sm.png');
         }
         if (Storage::disk('public')->exists('logo.png')) {

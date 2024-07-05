@@ -3,7 +3,6 @@
 namespace Database\Seeders\User;
 
 use App\Models\User;
-use Closure;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->initSuperAdmin();
         $this->bootMacros();
         $this->registerAdminMenu();
-        Model::preventLazyLoading(!app()->isProduction());
+        Model::preventLazyLoading(! app()->isProduction());
     }
 
     public function initSuperAdmin(): void

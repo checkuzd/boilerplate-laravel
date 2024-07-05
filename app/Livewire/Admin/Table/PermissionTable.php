@@ -4,19 +4,13 @@ namespace App\Livewire\Admin\Table;
 
 use App\Models\Permission;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Carbon;
-use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class PermissionTable extends PowerGridComponent
 {
@@ -50,7 +44,7 @@ final class PermissionTable extends PowerGridComponent
         return [
             Column::make('Sl.No', 'no')->index(),
             Column::make('Permission', 'name')->searchable(),
-            Column::action('Action')
+            Column::action('Action'),
         ];
 
     }

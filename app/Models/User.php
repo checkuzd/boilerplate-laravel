@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -20,9 +22,9 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
     use HasRoles;
     use InteractsWithMedia;
+    use Notifiable;
 
     protected $fillable = [
         'first_name',
@@ -43,7 +45,7 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
     ];
 
-    public function getRoleId(): Collection
+    public function getRoleId(): int
     {
         $this->loadMissing('roles');
 

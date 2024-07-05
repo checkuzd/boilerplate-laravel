@@ -4,14 +4,13 @@ namespace App\Livewire\Admin\Table;
 
 use App\Models\Menu\Menu;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class MenuTable extends PowerGridComponent
 {
@@ -47,7 +46,7 @@ final class MenuTable extends PowerGridComponent
             Column::make('Sl.No', 'no')->index(),
             Column::make('Menu', 'name')->searchable(),
             Column::make('Location', 'location')->searchable(),
-            Column::action('Action')
+            Column::action('Action'),
         ];
 
     }

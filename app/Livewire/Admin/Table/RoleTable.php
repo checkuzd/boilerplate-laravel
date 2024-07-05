@@ -4,18 +4,14 @@ namespace App\Livewire\Admin\Table;
 
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class RoleTable extends PowerGridComponent
 {
@@ -40,9 +36,8 @@ final class RoleTable extends PowerGridComponent
                 ->get();
         } else {
             $roles = Role::select('id', 'title', 'name')
-                ->with(['access_to' => fn ($query) =>
-                    $query->where('id', '!=', auth()->user()->getRoleId())
-                        ->orderBy('access_child_id', 'asc')
+                ->with(['access_to' => fn ($query) => $query->where('id', '!=', auth()->user()->getRoleId())
+                    ->orderBy('access_child_id', 'asc'),
                 ])
                 ->where('id', auth()->user()->getRoleId())
                 ->first();
@@ -71,8 +66,8 @@ final class RoleTable extends PowerGridComponent
             Column::make('Sl.No', 'no')->index(),
             Column::make('Role', 'title')->searchable(),
             Column::action('Action')->hidden(
-                isHidden: !auth()->user()->can('role-delete') && !auth()->user()->can('role-update')
-            )
+                isHidden: ! auth()->user()->can('role-delete') && ! auth()->user()->can('role-update')
+            ),
         ];
     }
 

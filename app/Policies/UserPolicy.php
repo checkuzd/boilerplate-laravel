@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Role;
-use Illuminate\Auth\Access\Response;
 use App\Models\User;
 
 class UserPolicy
@@ -33,7 +32,7 @@ class UserPolicy
         }
 
         $role = Role::findById($user->getRoleId());
-        if (!in_array($model->getRoleId(), $role->access_to()->pluck('id')->toArray())) {
+        if (! in_array($model->getRoleId(), $role->access_to()->pluck('id')->toArray())) {
             return false;
         }
 
@@ -47,7 +46,7 @@ class UserPolicy
         }
 
         $role = Role::findById($user->getRoleId());
-        if (!in_array($model->getRoleId(), $role->access_to()->pluck('id')->toArray())) {
+        if (! in_array($model->getRoleId(), $role->access_to()->pluck('id')->toArray())) {
             return false;
         }
 

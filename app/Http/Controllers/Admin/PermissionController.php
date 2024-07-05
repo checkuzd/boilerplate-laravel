@@ -56,4 +56,14 @@ class PermissionController extends Controller
 
         return to_route('admin.permissions.edit', $permission)->with('success', 'Permission updated successfully');
     }
+
+    public function destroy(Permission $permission): RedirectResponse
+    {
+        if ($permission->children()->count()) {
+            return redirect()->back()->with('error', 'Permission cannot be delete, it is a related permission');
+        }
+        $permission->delete();
+
+        return redirect()->back()->with('success', 'Permission deleted successfully');
+    }
 }
