@@ -18,6 +18,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/routes/test.php
 
 .php-cs-fixer.cache
 .php-cs-fixer.dist.php
