@@ -16,6 +16,6 @@ class AdminController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('login');
+        return redirect()->route('admin.login');
     }
 }
