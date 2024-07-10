@@ -71,7 +71,11 @@ class User extends Authenticatable implements HasMedia
 
     public function getShortNameAttribute(): string
     {
-        return strtoupper(substr($this->first_name, 0, 1)).strtoupper(substr($this->last_name, 0, 1));
+        if ($this->last_name) {
+            return strtoupper(substr($this->first_name, 0, 1)).strtoupper(substr($this->last_name, 0, 1));
+        }
+
+        return strtoupper(substr($this->first_name, 0, 1));
     }
 
     public function registerMediaCollections(): void

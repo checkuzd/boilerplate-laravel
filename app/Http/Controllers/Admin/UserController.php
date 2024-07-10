@@ -8,10 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\UserRegistered;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -64,6 +66,14 @@ class UserController extends Controller
         $user = User::create($validatedData);
 
         $user->roles()->sync($request->input('role'));
+
+        $status = Password::sendResetLink(
+            $request->only('email'), function ($user, $token) {
+                $user->notify(new UserRegistered($token));
+
+                return Password::RESET_LINK_SENT;
+            }
+        );
 
         if ($request->hasFile('avatar')) {
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
