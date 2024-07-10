@@ -6,8 +6,9 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\PasswordReset;
 use Exception;
-use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\PasswordReset as EventPasswordReset;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +37,11 @@ class ResetPasswordController extends Controller
 
         try {
             $status = Password::sendResetLink(
-                $request->only('email')
+                $request->only('email'), function ($user, $token) {
+                    $user->notify(new PasswordReset($token));
+
+                    return Password::RESET_LINK_SENT;
+                }
             );
         } catch (Exception $e) {
             $status = 'Sorry, we are currently facing issues, contact us directly via mail.';
@@ -68,12 +73,12 @@ class ResetPasswordController extends Controller
                     'remember_token' => Str::random(60),
                 ])->save();
 
-                event(new PasswordReset($user));
+                event(new EventPasswordReset($user));
             }
         );
 
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('admin.login')->with('status', __($status))
+                    ? to_route('admin.login')->with('status', __($status))
                     : back()->withInput($request->only('email'))
                         ->withErrors(['email' => __($status)]);
     }
