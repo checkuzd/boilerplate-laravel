@@ -10,14 +10,13 @@
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^3.0@beta",
+        "livewire/livewire": "^3.0",
         "power-components/livewire-powergrid": "^5.8",
         "spatie/laravel-medialibrary": "^11.7.2",
         "spatie/laravel-permission": "^6.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
-        "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",

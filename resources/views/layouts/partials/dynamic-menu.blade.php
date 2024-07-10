@@ -1,4 +1,4 @@
-@if($menu->menuItems)
+@isset($menu->menuItems)
 <ul class="side-nav">
 @foreach ($menu->menuItems as $menuItem)
     @if($menuItem->type == App\Enums\MenuItemType::ROUTE_NAME->type())
@@ -31,5 +31,13 @@
         @include('layouts.partials.dynamic-submenu', ['submenus' => $menuItem->children, 'menuParent' => $menuItem->name])
     </li>
 @endforeach
+</ul>
+@else
+<ul class="side-nav">
+    <li class="side-nav-item">
+        <a href="{{ route('admin.dashboard') }}" class="side-nav-link">            
+            <span>{{ __('Dashboard') }}</span>
+        </a>
+    </li>
 </ul>
 @endif

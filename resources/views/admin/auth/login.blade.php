@@ -9,7 +9,7 @@
     </p>
 
     <!-- form -->
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('admin.login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -19,8 +19,8 @@
             <x-admin.input-error :messages="$errors->get('username')" />
         </div>
         <div class="mb-3">
-            @if (Route::has('password.request'))
-                <a class="text-muted float-end" href="{{ route('password.request') }}">
+            @if (Route::has('admin.password.request'))
+                <a class="text-muted float-end" href="{{ route('admin.password.request') }}">
                     <small>{{ __('Forgot your password?') }}</small>
                 </a>
             @endif

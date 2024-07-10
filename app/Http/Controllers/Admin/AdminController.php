@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -14,6 +16,6 @@ class AdminController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('login');
+        return redirect()->route('admin.login');
     }
 }

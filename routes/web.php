@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthController;
+declare(strict_types=1);
+
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Auth\LogoutController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Menu\MenuController;
 use App\Http\Controllers\Admin\Menu\MenuItemController;
@@ -15,9 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'permission:admin-dashboard']], function () {
+    Route::get('/', AdminController::class)->name('login.check');
     Route::get('dashboard', DashboardController::class)->name('dashboard');
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('logout', LogoutController::class)->name('logout');
 
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
