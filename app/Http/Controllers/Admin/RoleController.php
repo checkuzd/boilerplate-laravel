@@ -7,48 +7,41 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Services\Admin\RoleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    private RoleService $roleService;
+
     public function __construct()
     {
         $this->authorizeResource(Role::class, 'role');
+
+        $this->roleService = new RoleService();
     }
 
     public function index(): View
     {
-        if (auth()->user()->hasRole('super-admin')) {
-            $roles = Role::where('name', '!=', 'super-admin')->get();
-        } else {
-            /*
-            to don't show the roles even if the current role has been given access to manage
-            $roles = Role::withWhereHas('access_to', fn ($query) => $query->where('id', '!=', auth()->user()->getRoleId()))
-             */
-            $roles = Role::with(['access_to' => function ($query) {
-                $query->where('id', '!=', auth()->user()->getRoleId())
-                    ->orderBy('access_child_id', 'asc');
-            }])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
-            $roles = $roles->access_to;
-        }
-
-        return view('admin.role.index', compact('roles'));
+        return view('admin.role.index');
     }
 
-    public function create(): View
+    public function create()
     {
-        $permissions = Permission::has('children')->with('children')->get();
-
+        $permissions = Permission::has('children');
         if (auth()->user()->hasRole('super-admin')) {
             $roles = Role::all();
+            $permissions = $permissions->with('children')->get();
         } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $availablePermissions = auth()->user()->getAllPermissions()->pluck('id');
+
+            $permissions = $permissions->with([
+                'children' => fn ($query) => $query->whereIn('id', $availablePermissions),
+            ])->get();
+
+            $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to;
         }
 
@@ -63,34 +56,19 @@ class RoleController extends Controller
             'permissions' => 'sometimes',
         ]);
 
-        $role = Role::create(request()->only('name', 'title'));
-        $role->syncPermissions(request()->only('permissions'));
-
-        $current_user_role = Role::find(auth()->user()->getRoleId());
-
-        $current_user_role->access_to()->attach($role->id);
+        $role = $this->roleService->storeUserRole($request);
 
         return to_route('admin.roles.edit', $role)->with('success', 'Role added successfully');
     }
 
-    public function edit(Role $role): View
+    public function edit(Role $role)
     {
-        $permissions = Permission::has('children')->with('children')->get();
+        $data = $this->roleService->getAccessiblePermissions($role);
 
-        if (auth()->user()->hasRole('super-admin')) {
-            $roles = new \stdClass();
-            $roles->access_to = Role::all();
-        } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
-        }
-        $abilities = $role->access_to()->pluck('id');
-
-        return view('admin.role.edit', compact('permissions', 'roles', 'role', 'abilities'));
+        return view('admin.role.edit', $data);
     }
 
-    public function update(Request $request, Role $role): RedirectResponse
+    public function update(Request $request, Role $role)
     {
         $request->validate([
             'name' => 'required|unique:roles,name,'.$role->id,
@@ -98,31 +76,18 @@ class RoleController extends Controller
             'permissions' => 'sometimes',
         ]);
 
-        if (auth()->user()->hasRole('super-admin')) {
-            $role->access_to()->sync(request()->input('roles'));
-        } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
-
-            $abilities = $roles->access_to()->pluck('id')->toArray();
-
-            $result = null;
-            if (request()->input('roles')) {
-                $result = array_intersect($abilities, request()->input('roles'));
-            }
-
-            $role->access_to()->sync($result);
-        }
-
-        $role->update(request()->only('name', 'title'));
-        $role->syncPermissions(request()->only('permissions'));
+        // try {
+        $this->roleService->updateUserRole($request, $role);
+        // } catch (\Throwable $e) {
+        //     return back()->withErrors($e->getMessage());
+        // }
 
         return to_route('admin.roles.edit', $role)->with('success', 'Role updated successfully');
     }
 
     public function destroy(Role $role): RedirectResponse
     {
+        // $role->access_to()->sync($result);
         $role->delete();
 
         return redirect()->back()->with('success', 'Role deleted successfully');

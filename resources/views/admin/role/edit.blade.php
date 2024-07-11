@@ -22,6 +22,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <form action="{{ route('admin.roles.update', $role->id) }}" method="POST" class="mb-3">
                 @csrf
@@ -70,6 +75,9 @@
                                                     class="form-check-input"
                                                     id="{{ $childPermission->name }}"
                                                     {{ ($role->hasPermissionTo($childPermission->name)) ? 'checked' : '' }}
+                                                    @unlessrole('super-admin')
+                                                    {{ ($restrictedPermissions->contains($childPermission->id)) ? 'disabled' : '' }}
+                                                    @endunlessrole
                                                 />
                                                 <label class="form-check-label" for="{{ $childPermission->name }}">{{ $childPermission->name }}</label>
                                             </div>
