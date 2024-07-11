@@ -14,8 +14,16 @@ return new class() extends Migration
     public function up(): void
     {
         Schema::create('role_access', function (Blueprint $table) {
-            $table->foreignId('access_main_id')->references('id')->on('roles');
-            $table->foreignId('access_child_id')->references('id')->on('roles');
+            $table->foreignId('access_main_id')
+                ->references('id')
+                ->on('roles')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('access_child_id')
+                ->references('id')
+                ->on('roles')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

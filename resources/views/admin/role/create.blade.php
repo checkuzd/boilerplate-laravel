@@ -75,17 +75,19 @@
 
                             <div class="col-md-12">
                                 <h4>Can Manage</h4>
-                                @foreach ($roles as $role)
-                                    <div class="form-check">
-                                        <input type="checkbox"
-                                            name="roles[]"
-                                            value="{{ $role->id }}"
-                                            class="form-check-input"
-                                            id="{{ $role->title }}"
-                                        />
-                                        <label class="form-check-label" for="{{ $role->title }}">{{ $role->title }}</label>
-                                    </div>
-                                @endforeach
+                                <div class="can-manage">
+                                    @foreach ($roles as $role)
+                                        <div class="form-check">
+                                            <input type="checkbox"
+                                                name="roles[]"
+                                                value="{{ $role->id }}"
+                                                class="form-check-input"
+                                                id="{{ $role->title }}"
+                                            />
+                                            <label class="form-check-label" for="{{ $role->title }}">{{ $role->title }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
 
                         </div>
