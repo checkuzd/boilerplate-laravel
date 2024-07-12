@@ -147,6 +147,7 @@ export function initLoadMenuItem() {
             processData: false,
             success: function (response) {
                 $('#edit-menu-item .modal-content').html(response);
+                $('.select-permissions').select2();
             },
             error: function (response) {
             }
@@ -167,6 +168,7 @@ export function initAddMenuItem() {
             processData: false,
             success: function (response) {
                 $this[0].reset();
+                $('.select2').trigger('change');
                 var item = $(response.view);
                 item.data('insideLevels', 0);
                 item.data('upperLevels', 0);
