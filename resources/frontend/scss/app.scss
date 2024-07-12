@@ -32,14 +32,3 @@
         src: url('../fonts/grand-hotel-v19-latin-regular.woff2') format('woff2');
     }
 }
-
-.hero {
-    img{
-        transition: all .5s ease-in-out;
-    }
-    &:hover{
-        img {
-            scale: 1.1;            
-        }
-    }
-}
