@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: 'Nunito';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url('../fonts/nunito-sans-v15-latin-500.woff2') format('woff2');
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 200;
+        font-display: swap;
+        src: url('../fonts/montserrat-v26-latin-200.woff2') format('woff2');
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url('../fonts/montserrat-v26-latin-600.woff2') format('woff2');
+    }
+    @font-face {
+        font-family: 'Grand Hotel';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url('../fonts/grand-hotel-v19-latin-regular.woff2') format('woff2');
+    }
+}
+
+.hero {
+    img{
+        transition: all .5s ease-in-out;
+    }
+    &:hover{
+        img {
+            scale: 1.1;            
+        }
+    }
+}
