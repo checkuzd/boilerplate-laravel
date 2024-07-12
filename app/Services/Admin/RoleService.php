@@ -38,14 +38,13 @@ class RoleService
     public function storeUserRole($data)
     {
         $permissions = $data->only('permissions');
-
+        $permissions = (isset($permissions['permissions'])) ? $permissions['permissions'] : null;
         if (! auth()->user()->hasRole('super-admin')) {
-            $this->checkPermissions($permissions['permissions']);
+            $this->checkPermissions($permissions);
         }
 
         $role = Role::create($data->only('name', 'title'));
         $role->syncPermissions($data->only('permissions'));
-
         $this->addAccessToRoles($role, $data->input('roles'));
 
         return $role;
@@ -54,14 +53,14 @@ class RoleService
     public function updateUserRole($data, Role $role): void
     {
         $permissions = $data->only('permissions');
-
+        $permissions = (isset($permissions['permissions'])) ? $permissions['permissions'] : null;
         if (! auth()->user()->hasRole('super-admin')) {
-            $permissions = $this->checkWithRestrictedPermissions($role, $permissions['permissions']);
+            $permissions = $this->checkWithRestrictedPermissions($role, $permissions);
         }
 
-        $this->addAccessToRoles($role, $data->input('roles'));
         $role->update($data->only('name', 'title'));
         $role->syncPermissions($permissions);
+        $this->addAccessToRoles($role, $data->input('roles'));
     }
 
     private function checkPermissions($permissions)
@@ -111,8 +110,12 @@ class RoleService
             $roles = Role::currentUserCanManageRoles()->first();
 
             $accessibleRoles = $roles->access_to()->pluck('id')->toArray();
+            $currentAccessibleRole = $role->access_to()->pluck('id')->toArray();
 
             $sortedRoles = $addAccessRoles ? array_intersect($accessibleRoles, $addAccessRoles) : [];
+            $restrictedRoles = $currentAccessibleRole ? array_diff($currentAccessibleRole, $addAccessRoles) : [];
+
+            $sortedRoles = $sortedRoles + $restrictedRoles;
             $role->access_to()->sync($sortedRoles);
 
             $currentUserRole = Role::find(auth()->user()->getRoleId());
