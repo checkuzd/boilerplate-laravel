@@ -18,12 +18,14 @@ class MenuSeeder extends Seeder
             'location' => MenuLocation::ADMIN,
         ]);
 
-        MenuItem::create([
+        $menuItem = MenuItem::create([
             'name' => 'Management',
             'type' => 'label',
             'order' => 1,
             'menu_id' => $adminMenu->id,
         ]);
+
+        $menuItem->permissions()->sync([5]);
 
         $usersMenuItem = MenuItem::create([
             'name' => 'Users',
@@ -32,6 +34,9 @@ class MenuSeeder extends Seeder
             'order' => 2,
             'menu_id' => $adminMenu->id,
         ]);
+
+        $usersMenuItem->permissions()->sync([14, 15]);
+
         $rolesMenuItem = MenuItem::create([
             'name' => 'Roles',
             'icon' => 'mdi-shield-account',
@@ -39,6 +44,9 @@ class MenuSeeder extends Seeder
             'order' => 3,
             'menu_id' => $adminMenu->id,
         ]);
+
+        $rolesMenuItem->permissions()->sync([9, 10]);
+
         $permissionsMenuItem = MenuItem::create([
             'name' => 'Permissions',
             'icon' => 'mdi-account-lock-open',
@@ -47,14 +55,18 @@ class MenuSeeder extends Seeder
             'menu_id' => $adminMenu->id,
         ]);
 
-        MenuItem::create([
+        $permissionsMenuItem->permissions()->sync([8]);
+
+        $menuItem = MenuItem::create([
             'name' => 'Components',
             'type' => 'label',
             'order' => 5,
             'menu_id' => $adminMenu->id,
         ]);
 
-        MenuItem::create([
+        $menuItem->permissions()->sync([2, 3]);
+
+        $menuItem = MenuItem::create([
             'name' => 'Menus',
             'route' => 'admin.menus.index',
             'icon' => 'mdi-menu',
@@ -63,7 +75,9 @@ class MenuSeeder extends Seeder
             'menu_id' => $adminMenu->id,
         ]);
 
-        MenuItem::create([
+        $menuItem->permissions()->sync([3]);
+
+        $menuItem = MenuItem::create([
             'name' => 'Settings',
             'route' => 'admin.settings.edit',
             'icon' => 'mdi-cog',
@@ -72,6 +86,8 @@ class MenuSeeder extends Seeder
             'menu_id' => $adminMenu->id,
         ]);
 
+        $menuItem->permissions()->sync([2]);
+
         $menus = [
             [
                 'name' => 'All Users',
@@ -79,6 +95,7 @@ class MenuSeeder extends Seeder
                 'type' => 'route_name',
                 'order' => 0,
                 'menu_item_id' => $usersMenuItem->id,
+                'permissions' => [14],
             ],
             [
                 'name' => 'Add New User',
@@ -86,6 +103,7 @@ class MenuSeeder extends Seeder
                 'type' => 'route_name',
                 'order' => 1,
                 'menu_item_id' => $usersMenuItem->id,
+                'permissions' => [15],
             ],
             [
                 'name' => 'Profile',
@@ -100,6 +118,7 @@ class MenuSeeder extends Seeder
                 'type' => 'route_name',
                 'order' => 0,
                 'menu_item_id' => $rolesMenuItem->id,
+                'permissions' => [9],
             ],
             [
                 'name' => 'Add New Role',
@@ -107,6 +126,7 @@ class MenuSeeder extends Seeder
                 'type' => 'route_name',
                 'order' => 1,
                 'menu_item_id' => $rolesMenuItem->id,
+                'permissions' => [10],
             ],
             [
                 'name' => 'All Permissions',
@@ -114,6 +134,7 @@ class MenuSeeder extends Seeder
                 'type' => 'route_name',
                 'order' => 0,
                 'menu_item_id' => $permissionsMenuItem->id,
+                'permissions' => [8],
             ],
             [
                 'name' => 'Add New Permission',
@@ -121,11 +142,12 @@ class MenuSeeder extends Seeder
                 'type' => 'route_name',
                 'order' => 1,
                 'menu_item_id' => $permissionsMenuItem->id,
+                'permissions' => [8],
             ],
         ];
 
         foreach ($menus as $key => $menu) {
-            MenuItem::create([
+            $menuItem = MenuItem::create([
                 'name' => $menu['name'],
                 'route' => $menu['route'],
                 'type' => $menu['type'],
@@ -133,6 +155,9 @@ class MenuSeeder extends Seeder
                 'menu_item_id' => $menu['menu_item_id'],
                 'menu_id' => $adminMenu->id,
             ]);
+            if (isset($menu['permissions'])) {
+                $menuItem->permissions()->sync($menu['permissions']);
+            }
         }
     }
 }
