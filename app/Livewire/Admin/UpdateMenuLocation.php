@@ -36,6 +36,7 @@ class UpdateMenuLocation extends Component
         ]);
 
         Cache::forget('menu-settings');
+        Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
         $this->toast('Menu location updated successfully!');
     }

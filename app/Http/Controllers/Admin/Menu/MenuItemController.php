@@ -33,6 +33,7 @@ class MenuItemController extends Controller
         $menuItem = MenuItem::create($validatedData);
 
         Cache::forget('menu-settings');
+        Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
         return response()->json([
             'msg' => 'Menu Item addded successfully!',
@@ -75,6 +76,7 @@ class MenuItemController extends Controller
         $menuItem->permissions()->sync($permissions['permissions']);
 
         Cache::forget('menu-settings');
+        Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
         return 'Menu Item updated successfully';
     }
@@ -83,6 +85,7 @@ class MenuItemController extends Controller
     {
         $menuItem->delete();
         Cache::forget('menu-settings');
+        Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
         return 'Menu Item removed';
     }

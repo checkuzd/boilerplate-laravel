@@ -22,6 +22,8 @@ class MenuService
             return $this->loadMenuItems($location);
         });
 
-        return view('layouts.partials.dynamic-menu', compact('menu'))->render();
+        return Cache::rememberForever('menu-view-'.auth()->user()->getRoleId(), function () use ($menu) {
+            return view('layouts.partials.dynamic-menu', compact('menu'))->render();
+        });
     }
 }

@@ -73,6 +73,7 @@ class MenuController extends Controller
         }
 
         Cache::forget('menu-settings');
+        Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
         return 'Menu Order updated successfully!';
     }
