@@ -14,7 +14,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h4>Add menu items</h4>
             <div class="accordion" id="add-mi-accordion">
                 <div class="accordion-item">
@@ -49,6 +49,20 @@
                                                 @if($route['name'])
                                                 <option value="{{ $route['name'] }}">{{ $route['name'] }}</option>
                                                 @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </label>
+                                <label class="d-flex justify-content-between align-items-center">
+                                    <div>Permissions</div>
+                                    <div class="select-wrapper">
+                                        <select name="route" data-placeholder="Choose ..." class="form-control select2 input-permissions select2-multiple" multiple data-toggle="select2">
+                                            @foreach ($permissions as $parentPermission)
+                                                <optgroup label="{{ $parentPermission->name }}">
+                                                    @foreach ($parentPermission->children as $permission)
+                                                        <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                                                    @endforeach
+                                                </optgroup>
                                             @endforeach
                                         </select>
                                     </div>
@@ -145,7 +159,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8">
             <h4>Menu Structure</h4>
             <div class="card menu-structure">
                 <livewire:admin.update-menu-name :id="$menu->id" :name="$menu->name" />

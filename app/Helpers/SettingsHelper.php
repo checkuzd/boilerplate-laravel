@@ -47,4 +47,11 @@ class SettingsHelper
     {
         return time();
     }
+
+    public static function checkPermission($permissions)
+    {
+        if (auth()->user()->hasAnyPermission($permissions) || auth()->user()->hasRole('super-admin')) {
+            return true;
+        }
+    }
 }

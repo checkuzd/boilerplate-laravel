@@ -6,9 +6,12 @@ namespace App\Http\Controllers\Admin\Menu;
 
 use App\Http\Controllers\Controller;
 use App\Models\Menu\MenuItem;
+use App\Models\Permission;
+use App\Services\RouteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 
 class MenuItemController extends Controller
 {
@@ -20,6 +23,7 @@ class MenuItemController extends Controller
             'type' => 'required',
             'icon' => 'nullable',
             'route' => 'nullable',
+            'permissions' => 'sometimes',
         ]);
 
         $validatedData['order'] = MenuItem::where('menu_id', $request->menu_id)
@@ -38,18 +42,37 @@ class MenuItemController extends Controller
 
     public function edit(MenuItem $menuItem)
     {
-        return view('admin.ajax.menu.edit-menu-item', compact('menuItem'));
+        $routeService = new RouteService(
+            method: 'GET',
+            exceptPath: 'api',
+            name: '',
+            path: '',
+            domain: '',
+            exceptVendor: true
+        );
+        $routes = Cache::rememberForever('admin-get-method-routes', function () use ($routeService) {
+            $cache = $routeService->getMethodRoutes(Route::getRoutes());
+
+            return $cache;
+        });
+
+        $permissions = Permission::has('children')->with('children')->get();
+
+        return view('admin.ajax.menu.edit-menu-item', compact('menuItem', 'routes', 'permissions'));
     }
 
     public function update(Request $request, MenuItem $menuItem)
     {
+
         $validatedData = $request->validate([
             'name' => 'required',
             'icon' => 'nullable',
-            'route' => 'required',
+            'route' => 'sometimes',
+            'permissions' => 'sometimes',
         ]);
-
-        $menuItem->update($validatedData);
+        $permissions = $request->only('permissions');
+        $menuItem->update($request->except('permissions'));
+        $menuItem->permissions()->sync($permissions['permissions']);
 
         Cache::forget('menu-settings');
 

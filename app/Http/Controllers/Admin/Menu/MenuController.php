@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin\Menu;
 use App\Http\Controllers\Controller;
 use App\Models\Menu\Menu;
 use App\Models\Menu\MenuItem;
+use App\Models\Permission;
 use App\Services\RouteService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class MenuController extends Controller
         return to_route('admin.menus.edit', $menu)->with('success', 'Menu added successfully');
     }
 
-    public function edit(Menu $menu): View
+    public function edit(Menu $menu)
     {
         $menu->load(['menuItems' => fn ($query) => $query->whereNull('menu_item_id')->with('children')->orderBy('order', 'ASC')]);
 
@@ -48,13 +49,15 @@ class MenuController extends Controller
             exceptVendor: true
         );
 
+        $permissions = Permission::has('children')->with('children')->get();
+
         $routes = Cache::rememberForever('admin-get-method-routes', function () use ($routeService) {
             $cache = $routeService->getMethodRoutes(Route::getRoutes());
 
             return $cache;
         });
 
-        return view('admin.menu.edit', compact('menu', 'routes'));
+        return view('admin.menu.edit', compact('menu', 'routes', 'permissions'));
     }
 
     public function update(Request $request, Menu $menu): string

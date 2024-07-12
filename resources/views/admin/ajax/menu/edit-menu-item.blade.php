@@ -20,8 +20,36 @@
                 </div>
                 <div class="mb-3">
                     <x-admin.input-label for="route" :value="__('Route')" />
-                    <x-admin.text-input id="route" class="form-control" type="text" name="route" :value="old('route', $menuItem->route)" />
+                    <select name="route" id="route" class="form-control">
+                        <option value="">Select</option>
+                        @foreach ($routes as $route)
+                            <option value="{{ $route['name'] }}" 
+                            {{ ($route['name'] == $menuItem->route) ? 'selected' : '' }}
+                            >
+                                {{ $route['name'] }}
+                            </option>
+                        @endforeach
+                    </select>                    
                     <div class="validation-error text-white error-route"></div>
+                </div>
+
+                <div class="mb-3">
+                    <x-admin.input-label for="permissions" :value="__('Permissions')" />
+                    <select name="permissions[]" id="permissions" data-placeholder="Choose ..." class="form-control select2 select-permissions select2-multiple" multiple data-toggle="select2">
+                        <option value="">Select</option>
+                        @foreach ($permissions as $parentPermission)
+                            <optgroup label="{{ $parentPermission->name }}">
+                                @foreach ($parentPermission->children as $permission)
+                                    <option value="{{ $permission->id }}"
+                                        {{ ($menuItem->permissions->find($permission->id)) ? 'selected' : ''  }}
+                                    >
+                                        {{ $permission->name }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>                    
+                    <div class="validation-error text-white error-permissions"></div>
                 </div>
             </div>
         </div>
