@@ -9,7 +9,6 @@ use App\Models\User;
 beforeEach(function () {
     Role::create([
         'name' => 'admin',
-        'title' => 'admin',
     ]);
     $permission = Permission::create([
         'name' => 'admin-dashboard',

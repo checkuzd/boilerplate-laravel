@@ -50,7 +50,7 @@ class SettingsHelper
 
     public static function checkPermission($permissions)
     {
-        if (auth()->user()->hasAnyPermission($permissions) || auth()->user()->hasRole('super-admin')) {
+        if (auth()->user()->hasAnyPermission($permissions) || auth()->user()->hasRole('Super Admin')) {
             return true;
         }
     }

@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function create(): View
     {
-        if (auth()->user()->hasRole('super-admin')) {
+        if (auth()->user()->hasRole('Super Admin')) {
             $roles = Role::all();
         } else {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
@@ -45,7 +45,7 @@ class UserController extends Controller
     {
         $validatedData = request()->only(['first_name', 'username', 'email', 'password', 'role']);
 
-        if (! auth()->user()->hasRole('super-admin')) {
+        if (! auth()->user()->hasRole('Super Admin')) {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
                 ->where('id', auth()->user()->getRoleId())
                 ->first();
@@ -86,7 +86,7 @@ class UserController extends Controller
 
     public function edit(User $user): View
     {
-        if (auth()->user()->hasRole('super-admin')) {
+        if (auth()->user()->hasRole('Super Admin')) {
             $roles = Role::all();
         } else {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
@@ -102,7 +102,7 @@ class UserController extends Controller
     {
         $validatedData = request()->only(['first_name', 'last_name', 'username', 'email', 'role']);
 
-        if (! auth()->user()->hasRole('super-admin')) {
+        if (! auth()->user()->hasRole('Super Admin')) {
             $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
                 ->where('id', auth()->user()->getRoleId())
                 ->first();

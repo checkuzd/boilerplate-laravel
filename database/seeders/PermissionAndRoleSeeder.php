@@ -74,9 +74,9 @@ class PermissionAndRoleSeeder extends Seeder
             'name' => 'user-delete',
         ]);
 
-        Role::create(['name' => 'super-admin', 'title' => 'Super Admin']);
-        $admin = Role::create(['name' => 'admin', 'title' => 'Admin']);
-        $customer = Role::create(['name' => 'customer', 'title' => 'Customer']);
+        Role::create(['name' => 'Super Admin']);
+        $admin = Role::create(['name' => 'Admin']);
+        $customer = Role::create(['name' => 'Customer']);
 
         foreach ($admin_permission as $key => $permission) {
             $admin->givePermissionTo($permission->name);

@@ -10,13 +10,11 @@ beforeEach(function () {
 
     Role::create([
         'name' => 'customer',
-        'title' => 'customer',
     ]);
     $this->user = User::factory()->withRole('customer')->create();
 
     Role::create([
         'name' => 'admin',
-        'title' => 'admin',
     ]);
     $permission = Permission::create([
         'name' => 'admin-dashboard',
