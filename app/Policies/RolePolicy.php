@@ -33,9 +33,7 @@ class RolePolicy
             return false;
         }
 
-        $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-            ->where('id', auth()->user()->getRoleId())
-            ->first();
+        $roles = Role::currentUserCanManageRoles()->first();
 
         if (! in_array($role->id, $roles->access_to->pluck('id')->toArray())) {
             return false;

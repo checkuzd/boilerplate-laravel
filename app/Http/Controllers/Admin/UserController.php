@@ -32,9 +32,7 @@ class UserController extends Controller
         if (auth()->user()->hasRole('Super Admin')) {
             $roles = Role::all();
         } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to;
         }
 
@@ -46,9 +44,7 @@ class UserController extends Controller
         $validatedData = request()->only(['first_name', 'username', 'email', 'password', 'role']);
 
         if (! auth()->user()->hasRole('Super Admin')) {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::currentUserCanManageRoles()->first();
 
             $abilities = $roles->access_to()->pluck('id')->toArray();
 
@@ -89,9 +85,7 @@ class UserController extends Controller
         if (auth()->user()->hasRole('Super Admin')) {
             $roles = Role::all();
         } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to;
         }
 
@@ -103,9 +97,7 @@ class UserController extends Controller
         $validatedData = request()->only(['first_name', 'last_name', 'username', 'email', 'role']);
 
         if (! auth()->user()->hasRole('Super Admin')) {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::currentUserCanManageRoles()->first();
 
             $abilities = $roles->access_to()->pluck('id')->toArray();
 

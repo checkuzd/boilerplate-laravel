@@ -59,9 +59,7 @@ final class UserTable extends PowerGridComponent
             ->where('users.id', '!=', auth()->user()->id);
 
         if (! auth()->user()->hasRole('Super Admin')) {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to->pluck('id')->toArray();
 
             $users->whereIn('roles.id', $roles);
@@ -141,9 +139,7 @@ final class UserTable extends PowerGridComponent
         if (auth()->user()->hasRole('Super Admin')) {
             $roles = Role::select('id', 'name')->get();
         } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to;
         }
 

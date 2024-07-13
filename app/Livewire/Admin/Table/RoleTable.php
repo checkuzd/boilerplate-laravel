@@ -37,12 +37,7 @@ final class RoleTable extends PowerGridComponent
                 ->where('name', '!=', 'Super Admin')
                 ->get();
         } else {
-            $roles = Role::select('id', 'name')
-                ->with(['access_to' => fn ($query) => $query->where('id', '!=', auth()->user()->getRoleId())
-                    ->orderBy('access_child_id', 'asc'),
-                ])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::select('id', 'name')->currentUserCanManageRoles()->first();
 
             $roles = $roles->access_to;
         }
