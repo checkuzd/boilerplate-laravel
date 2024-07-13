@@ -32,17 +32,12 @@ final class RoleTable extends PowerGridComponent
     public function datasource(): Builder|Collection
     {
 
-        if (auth()->user()->hasRole('super-admin')) {
-            $roles = Role::select('id', 'title', 'name')
-                ->where('name', '!=', 'super-admin')
+        if (auth()->user()->hasRole('Super Admin')) {
+            $roles = Role::select('id', 'name')
+                ->where('name', '!=', 'Super Admin')
                 ->get();
         } else {
-            $roles = Role::select('id', 'title', 'name')
-                ->with(['access_to' => fn ($query) => $query->where('id', '!=', auth()->user()->getRoleId())
-                    ->orderBy('access_child_id', 'asc'),
-                ])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::select('id', 'name')->currentUserCanManageRoles()->first();
 
             $roles = $roles->access_to;
         }
@@ -66,7 +61,7 @@ final class RoleTable extends PowerGridComponent
     {
         return [
             Column::make('Sl.No', 'no')->index(),
-            Column::make('Role', 'title')->searchable(),
+            Column::make('Role', 'name')->searchable(),
             Column::action('Action')->hidden(
                 isHidden: ! auth()->user()->can('role-delete') && ! auth()->user()->can('role-update')
             ),

@@ -35,22 +35,12 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
 
                                 <div class="mb-3">
                                     <x-admin.input-label for="name" :value="__('Role Name')" />
                                     <x-admin.text-input id="name" class="form-control" type="text" name="name" :value="old('name',$role->name)" required autocomplete="name" />
                                     <x-admin.input-error :messages="$errors->get('name')" />
-                                </div>
-
-                            </div> <!-- end col-->
-
-                            <div class="col-md-6">
-
-                                <div class="mb-3">
-                                    <x-admin.input-label for="name" :value="__('Title (Front-end)')" />
-                                    <x-admin.text-input id="title" class="form-control" type="text" name="title" :value="old('title',$role->title)" required autocomplete="title" />
-                                    <x-admin.input-error :messages="$errors->get('title')" />
                                 </div>
 
                             </div> <!-- end col-->
@@ -75,7 +65,7 @@
                                                     class="form-check-input"
                                                     id="{{ $childPermission->name }}"
                                                     {{ ($role->hasPermissionTo($childPermission->name)) ? 'checked' : '' }}
-                                                    @unlessrole('super-admin')
+                                                    @unlessrole('Super Admin')
                                                     {{ ($restrictedPermissions->contains($childPermission->id)) ? 'disabled' : '' }}
                                                     @endunlessrole
                                                 />
@@ -97,10 +87,10 @@
                                                 name="roles[]"
                                                 value="{{ $role->id }}"
                                                 class="form-check-input"
-                                                id="{{ $role->title }}"
+                                                id="{{ $role->name }}"
                                                 {{ $abilities->contains($role->id) ? 'checked' : '' }}
                                             />
-                                            <label class="form-check-label" for="{{ $role->title }}">{{ $role->title }}</label>
+                                            <label class="form-check-label" for="{{ $role->name }}">{{ $role->name }}</label>
                                         </div>
                                     @endforeach
                                 </div>

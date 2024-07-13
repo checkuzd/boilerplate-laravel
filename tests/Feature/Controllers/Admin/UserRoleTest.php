@@ -7,10 +7,9 @@ use App\Models\User;
 
 beforeEach(function () {
     Role::create([
-        'name' => 'super-admin',
-        'title' => 'admin',
+        'name' => 'Super Admin',
     ]);
-    $this->adminUser = User::factory()->withRole('super-admin')->create();
+    $this->adminUser = User::factory()->withRole('Super Admin')->create();
 });
 
 test('check user validation on create', function () {

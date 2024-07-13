@@ -56,7 +56,7 @@ class User extends Authenticatable implements HasMedia
     {
         $this->loadMissing('roles');
 
-        return $this->roles->pluck('title');
+        return $this->roles->pluck('name');
     }
 
     public function getFullNameAttribute(): string

@@ -31,7 +31,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::has('children');
-        if (auth()->user()->hasRole('super-admin')) {
+        if (auth()->user()->hasRole('Super Admin')) {
             $roles = Role::all();
             $permissions = $permissions->with('children')->get();
         } else {
@@ -52,7 +52,6 @@ class RoleController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:roles,name',
-            'title' => 'required|unique:roles,title',
             'permissions' => 'sometimes',
         ]);
 
@@ -72,7 +71,6 @@ class RoleController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:roles,name,'.$role->id,
-            'title' => 'required|unique:roles,title,'.$role->id,
             'permissions' => 'sometimes',
         ]);
 

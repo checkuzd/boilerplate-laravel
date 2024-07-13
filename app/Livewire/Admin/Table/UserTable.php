@@ -51,17 +51,15 @@ final class UserTable extends PowerGridComponent
                 'users.first_name',
                 'users.last_name',
                 'roles.id as role_id',
-                'roles.title as role_name',
+                'roles.name as role_name',
                 DB::raw("CONCAT(users.first_name, ' ', users.last_name) as full_name")
             )
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id') // Assuming the pivot table is named 'model_has_roles'
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('users.id', '!=', auth()->user()->id);
 
-        if (! auth()->user()->hasRole('super-admin')) {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+        if (! auth()->user()->hasRole('Super Admin')) {
+            $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to->pluck('id')->toArray();
 
             $users->whereIn('roles.id', $roles);
@@ -138,19 +136,17 @@ final class UserTable extends PowerGridComponent
 
     public function filters(): array
     {
-        if (auth()->user()->hasRole('super-admin')) {
-            $roles = Role::select('id', 'title')->get();
+        if (auth()->user()->hasRole('Super Admin')) {
+            $roles = Role::select('id', 'name')->get();
         } else {
-            $roles = Role::with(['access_to' => fn ($query) => $query->orderBy('access_child_id', 'asc')])
-                ->where('id', auth()->user()->getRoleId())
-                ->first();
+            $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to;
         }
 
         return [
             Filter::select('role_name', 'roles.id')
                 ->dataSource($roles)
-                ->optionLabel('title')
+                ->optionLabel('name')
                 ->optionValue('id'),
             Filter::boolean('status')->label('Active', 'Inactive'),
             Filter::inputText('id', 'users.id')->operators(['is']),

@@ -21,7 +21,7 @@ class AdminSeeder extends Seeder
             'status' => true,
         ]);
 
-        $user->assignRole('super-admin');
+        $user->assignRole('Super Admin');
 
         $user = User::create([
             'first_name' => 'Admin',
@@ -32,6 +32,6 @@ class AdminSeeder extends Seeder
             'status' => true,
         ]);
 
-        $user->assignRole('admin');
+        $user->assignRole('Admin');
     }
 }
