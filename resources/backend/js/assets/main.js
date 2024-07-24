@@ -127,7 +127,11 @@ export function initLeftSidebar() {
         // activate the menu in left side bar (Vertical Menu) based on url
         $(".side-nav a").each(function () {
             var pageUrl = window.location.href.split(/[?#]/)[0];
-            if (this.href == pageUrl) {
+            if (this.href == pageUrl || pageUrl.includes(this.href)) {
+                if(this.href == pageUrl){
+                    $('.sub-menu-item.menuitem-active .active').removeClass('active');
+                    $('.sub-menu-item.menuitem-active').removeClass('menuitem-active');
+                }
                 $(this).addClass("active");
                 $(this).parent().addClass("menuitem-active");
                 $(this).parent().parent().parent().addClass("show");
@@ -445,7 +449,7 @@ export function initConfirmDeleteModal() {
 }
 
 export function initFilepond() {
-    if (!$('.filepond').length) {
+    if (!$('.filepond-upload').length) {
         return;
     }
     FilePond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateSize);
@@ -461,6 +465,16 @@ export function initFilepond() {
             }
         );
     });
+    FilePond.create(
+        document.getElementById('product-images'),
+        {
+            allowReorder: true,
+            allowMultiple: true,
+            storeAsFile: true,
+            credits: false,
+            maxFileSize: '1MB'
+        }
+    );
 }
 
 export function init() {    

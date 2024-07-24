@@ -5,6 +5,6 @@
         <img src="{{ SettingsHelper::logo($fieldName) }}?t={{ SettingsHelper::getTimeNow() }}" class="w-auto mw-100" >
     </div>
     <div>
-        <input type="file" name="{{ $fieldName }}" class="filepond">
+        <input type="file" name="{{ $fieldName }}" class="filepond filepond-upload">
     </div>
 </div>

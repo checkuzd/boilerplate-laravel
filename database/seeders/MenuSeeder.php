@@ -19,19 +19,38 @@ class MenuSeeder extends Seeder
         ]);
 
         $menuItem = MenuItem::create([
-            'name' => 'Management',
+            'name' => 'Store',
             'type' => 'label',
-            'order' => 1,
+            'order' => 91,
             'menu_id' => $adminMenu->id,
         ]);
 
-        $menuItem->permissions()->sync([5]);
+        $menuItem->permissions()->sync([19, 20]);
+
+        $productsMenuItem = MenuItem::create([
+            'name' => 'Products',
+            'icon' => 'mdi-equal-box',
+            'type' => 'label',
+            'order' => 92,
+            'menu_id' => $adminMenu->id,
+        ]);
+
+        $productsMenuItem->permissions()->sync([19, 20]);
+
+        $menuItem = MenuItem::create([
+            'name' => 'Management',
+            'type' => 'label',
+            'order' => 93,
+            'menu_id' => $adminMenu->id,
+        ]);
+
+        $menuItem->permissions()->sync([8, 9, 10, 14, 15]);
 
         $usersMenuItem = MenuItem::create([
             'name' => 'Users',
             'icon' => 'mdi-account-group',
             'type' => 'label',
-            'order' => 2,
+            'order' => 94,
             'menu_id' => $adminMenu->id,
         ]);
 
@@ -41,7 +60,7 @@ class MenuSeeder extends Seeder
             'name' => 'Roles',
             'icon' => 'mdi-shield-account',
             'type' => 'label',
-            'order' => 3,
+            'order' => 95,
             'menu_id' => $adminMenu->id,
         ]);
 
@@ -51,7 +70,7 @@ class MenuSeeder extends Seeder
             'name' => 'Permissions',
             'icon' => 'mdi-account-lock-open',
             'type' => 'label',
-            'order' => 4,
+            'order' => 96,
             'menu_id' => $adminMenu->id,
         ]);
 
@@ -60,7 +79,7 @@ class MenuSeeder extends Seeder
         $menuItem = MenuItem::create([
             'name' => 'Components',
             'type' => 'label',
-            'order' => 5,
+            'order' => 97,
             'menu_id' => $adminMenu->id,
         ]);
 
@@ -71,7 +90,7 @@ class MenuSeeder extends Seeder
             'route' => 'admin.menus.index',
             'icon' => 'mdi-menu',
             'type' => 'route_name',
-            'order' => 6,
+            'order' => 98,
             'menu_id' => $adminMenu->id,
         ]);
 
@@ -82,13 +101,29 @@ class MenuSeeder extends Seeder
             'route' => 'admin.settings.edit',
             'icon' => 'mdi-cog',
             'type' => 'route_name',
-            'order' => 7,
+            'order' => 99,
             'menu_id' => $adminMenu->id,
         ]);
 
         $menuItem->permissions()->sync([2]);
 
         $menus = [
+            [
+                'name' => 'All Products',
+                'route' => 'admin.products.index',
+                'type' => 'route_name',
+                'order' => 0,
+                'menu_item_id' => $productsMenuItem->id,
+                'permissions' => [19],
+            ],
+            [
+                'name' => 'Add New Product',
+                'route' => 'admin.products.create',
+                'type' => 'route_name',
+                'order' => 1,
+                'menu_item_id' => $productsMenuItem->id,
+                'permissions' => [20],
+            ],
             [
                 'name' => 'All Users',
                 'route' => 'admin.users.index',

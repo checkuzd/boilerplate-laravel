@@ -207,6 +207,7 @@ export function initUpdateMenuItem() {
             processData: false,
             success: function (response) {
                 editMenuItemModal.hide();
+                $('#menu-' + $this.data('menu-id') + ' .menu-title').text(response.data.name);
                 Swal.fire({
                     toast: true,
                     position: 'top-right',
@@ -218,7 +219,7 @@ export function initUpdateMenuItem() {
                     timer: 5000,
                     timerProgressBar: true,
                     icon: 'success',
-                    title: response
+                    title: response.msg
                 })
             },
             error: function (response) {

@@ -64,7 +64,6 @@ class MenuItemController extends Controller
 
     public function update(Request $request, MenuItem $menuItem)
     {
-
         $validatedData = $request->validate([
             'name' => 'required',
             'icon' => 'nullable',
@@ -78,7 +77,12 @@ class MenuItemController extends Controller
         Cache::forget('menu-settings');
         Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
-        return 'Menu Item updated successfully';
+        $data = [
+            'msg' => __('Menu Item updated successfully'),
+            'data' => $menuItem,
+        ];
+
+        return response()->json($data);
     }
 
     public function destroy(MenuItem $menuItem)

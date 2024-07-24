@@ -6,7 +6,7 @@
     >
         <div class="menu-content">
             <div class="menu-head d-flex justify-content-between">
-                <span>
+                <span class="menu-title">
                 {{ $submenu->name }}
                 </span>
                 <div class="menu-options">

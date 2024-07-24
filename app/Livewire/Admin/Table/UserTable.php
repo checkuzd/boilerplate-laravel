@@ -76,7 +76,6 @@ final class UserTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('no')
             ->add('id')
             ->add('full_name')
             ->add('username')
@@ -88,8 +87,6 @@ final class UserTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Sl.No', 'no')
-                ->index(),
             Column::make('ID', 'id')
                 ->searchable()
                 ->hidden(isHidden: true, isForceHidden: false),
