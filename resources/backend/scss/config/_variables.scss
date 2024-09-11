@@ -932,12 +932,12 @@ $form-check-inline-margin-end:    1rem;
 $form-switch-color:               var(--#{$prefix}gray-300);
 $form-switch-width:               2em;
 $form-switch-padding-start:       $form-switch-width + .5em;
-$form-switch-bg-image:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#8b96a0' opacity='0.5'/></svg>");
+$form-switch-bg-image:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#ff5b5b' opacity='0.5'/></svg>");
 $form-switch-border-radius:       $form-switch-width;
 $form-switch-transition:          background-position .15s ease-in-out;
 
 $form-switch-focus-color:         $input-focus-border-color;
-$form-switch-focus-bg-image:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#8b96a0' opacity='0.5'/></svg>");
+$form-switch-focus-bg-image:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#ff5b5b' opacity='0.5'/></svg>");
 
 $form-switch-checked-color:       $component-active-color;
 $form-switch-checked-bg-image:    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='%23fff'/></svg>");

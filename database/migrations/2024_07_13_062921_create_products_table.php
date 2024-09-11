@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('slug');
             $table->mediumText('description')->nullable();
             $table->smallInteger('status', false, true)->default(1);
-            $table->dateTime('available_from')->default(now());
+            $table->dateTime('available_from')->useCurrent();
             $table->integer('price', false, true);
-            $table->integer('old_price', false, true);
+            $table->integer('old_price', false, true)->nullable();
             $table->integer('stock', false, true);
-            $table->smallInteger('stock_alert', false, true);
+            $table->smallInteger('stock_alert', false, true)->nullable();
             $table->timestamps();
         });
     }

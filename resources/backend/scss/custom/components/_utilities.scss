@@ -8,3 +8,10 @@
 .border-dashed {
     border-style: dashed !important;
 }
+
+.copy-clipboard {
+	cursor: pointer;
+	background: transparent;
+	border: inherit;
+	color: inherit;
+}

@@ -20,12 +20,10 @@
                 {{ session('success') }}
             </div>
             @endif
-            @if($errors)
-            @foreach ($errors as $error)
-            <div class="alert alert-success">                    
-                {{ $error }}
+            @if(session('error'))
+            <div class="alert alert-danger">                    
+                {{ session('error') }}
             </div>
-            @endforeach
             @endif
         </div>
     </div>

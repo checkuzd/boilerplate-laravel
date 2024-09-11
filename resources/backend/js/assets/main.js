@@ -477,6 +477,22 @@ export function initFilepond() {
     );
 }
 
+export function initCopyClipboard() {
+    let button = $(".copy-clipboard");
+    $(button).click(function(){
+        var popup = bootstrap.Popover.getInstance(this);
+        setTimeout(() => {
+            popup.hide()
+        }, 1000);
+        navigator.clipboard.writeText($(this).parent().text());
+    });
+    
+    new bootstrap.Popover('body', {
+        selector: '.copy-clipboard'
+    })
+
+}
+
 export function init() {    
     initComponents();
     initPortletCard();
@@ -491,4 +507,5 @@ export function init() {
     initSettingsFormValidation();
     initConfirmDeleteModal();
     initFilepond();
+    initCopyClipboard();
 }

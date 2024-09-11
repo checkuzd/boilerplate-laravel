@@ -19,6 +19,17 @@ class MenuSeeder extends Seeder
         ]);
 
         $menuItem = MenuItem::create([
+            'name' => 'Dashboard',
+            'route' => 'admin.dashboard',
+            'icon' => 'mdi-monitor-dashboard',
+            'type' => 'route_name',
+            'order' => 90,
+            'menu_id' => $adminMenu->id,
+        ]);
+
+        $menuItem->permissions()->sync([5]);
+
+        $menuItem = MenuItem::create([
             'name' => 'Store',
             'type' => 'label',
             'order' => 91,

@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\Table;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Footer;
@@ -17,6 +18,10 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class ProductTable extends PowerGridComponent
 {
+    public string $sortField = 'created_at';
+
+    public string $sortDirection = 'desc';
+
     public function setUp(): array
     {
         return [
@@ -39,7 +44,7 @@ final class ProductTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('name')
+            ->add('name', fn ($product) => $this->productInfo($product))
             ->add('price')
             ->add('stock')
             ->add('status');
@@ -91,5 +96,10 @@ final class ProductTable extends PowerGridComponent
     public function actionsFromView($row): View
     {
         return view('admin.dataTable.actions.model-actions', ['row' => $row, 'model' => 'product']);
+    }
+
+    private function productInfo($product)
+    {
+        return Blade::render('<x-admin.product-image image="'.$product->getFirstMediaUrl('product-images', 'thumb').'" productName="'.$product->name.'"/>');
     }
 }
