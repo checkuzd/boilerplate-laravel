@@ -472,7 +472,7 @@ export function initFilepond() {
             allowMultiple: true,
             storeAsFile: true,
             credits: false,
-            maxFileSize: '1MB'
+            maxFileSize: '1MB',
         }
     );
 }
@@ -484,7 +484,7 @@ export function initCopyClipboard() {
         setTimeout(() => {
             popup.hide()
         }, 1000);
-        navigator.clipboard.writeText($(this).parent().text());
+        navigator.clipboard.writeText($(this).parent().text().trim());
     });
     
     new bootstrap.Popover('body', {
