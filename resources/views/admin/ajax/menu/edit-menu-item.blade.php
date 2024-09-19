@@ -1,4 +1,4 @@
-<form action="{{ route('admin.menu-items.update', $menuItem->id) }}" method="POST">
+<form data-menu-id="{{ $menuItem->id }}" action="{{ route('admin.menu-items.update', $menuItem->id) }}" method="POST">
     @csrf
     @method('PATCH')
     <div class="modal-header">

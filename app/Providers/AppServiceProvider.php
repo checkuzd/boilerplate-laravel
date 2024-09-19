@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Enums\MenuLocation;
+use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
@@ -34,6 +35,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Super Admin') ? true : null;
+        });
+
+        Gate::define('viewLogViewer', function (?User $user) {
+            if (! app()->isProduction()) {
+                return true;
+            }
+
+            return $user?->hasRole('Super Admin') ? true : false;
         });
     }
 

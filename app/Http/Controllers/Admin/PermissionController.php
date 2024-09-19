@@ -12,11 +12,9 @@ use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
-    public function index(): View
+    public function index()
     {
-        $permissions = Permission::with('parent')->get();
-
-        return view('admin.permission.index', compact('permissions'));
+        return view('admin.permission.index');
     }
 
     public function create(): View

@@ -76,20 +76,17 @@ final class UserTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('no')
             ->add('id')
             ->add('full_name')
             ->add('username')
             ->add('role_name')
-            ->add('email')
+            ->add('email', fn ($user) => '<a class="copy-clipboard" data-bs-placement="bottom" data-bs-content="Copied"><i class="mdi mdi-content-copy"></i></a> '.$user->email)
             ->add('status');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Sl.No', 'no')
-                ->index(),
             Column::make('ID', 'id')
                 ->searchable()
                 ->hidden(isHidden: true, isForceHidden: false),
@@ -121,7 +118,7 @@ final class UserTable extends PowerGridComponent
 
             Column::action('Action')->hidden(
                 isHidden: ! auth()->user()->can('user-delete') && ! auth()->user()->can('user-update')
-            ),
+            )->fixedOnResponsive()->sortable(),
         ];
     }
 

@@ -56,7 +56,7 @@
                                 <label class="d-flex justify-content-between align-items-center">
                                     <div>Permissions</div>
                                     <div class="select-wrapper">
-                                        <select name="route" data-placeholder="Choose ..." class="form-control select2 input-permissions select2-multiple" multiple data-toggle="select2">
+                                        <select name="permissions[]" data-placeholder="Choose ..." class="form-control select2 input-permissions select2-multiple" multiple data-toggle="select2">
                                             @foreach ($permissions as $parentPermission)
                                                 <optgroup label="{{ $parentPermission->name }}">
                                                     @foreach ($parentPermission->children as $permission)
@@ -173,7 +173,7 @@
                                 >
                                     <div class="menu-content">
                                         <div class="menu-head d-flex justify-content-between">
-                                            <span>
+                                            <span class="menu-title">
                                             {{ $menuItem->name }}
                                             </span>
                                             <div class="menu-options">

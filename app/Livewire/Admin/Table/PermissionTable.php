@@ -30,14 +30,27 @@ final class PermissionTable extends PowerGridComponent
 
     public function datasource(): Collection
     {
-        return Permission::with('parent')->get();
+        return Permission::with('parent', 'roles')->get();
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('no')
-            ->add('name');
+            ->add('name')
+            ->add('roles', fn ($permission) => $this->showRoles($permission->roles));
+    }
+
+    public function showRoles($roles)
+    {
+        $roleName = [];
+        if ($roles) {
+            foreach ($roles as $key => $role) {
+                $roleName[$key] = $role->name;
+            }
+        }
+
+        return implode(' | ', $roleName);
     }
 
     public function columns(): array
@@ -46,6 +59,7 @@ final class PermissionTable extends PowerGridComponent
         return [
             Column::make('Sl.No', 'no')->index(),
             Column::make('Permission', 'name')->searchable(),
+            Column::make('Roles', 'roles')->searchable(),
             Column::action('Action'),
         ];
 

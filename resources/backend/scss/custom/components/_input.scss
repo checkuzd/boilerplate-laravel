@@ -46,3 +46,15 @@ textarea:focus,
     box-shadow: 0 0 0 1px $primary;
     outline: 2px solid transparent;
 }
+
+input[type="checkbox"] {
+    box-shadow: 0 0 0 1px $red-500;
+    &:focus{
+        border-color: $red-500 !important;
+        box-shadow: 0 0 0 1px $red-500;
+    }
+    &:checked{
+        border-color: $input-focus-border-color !important;
+        box-shadow: 0 0 0 1px $blue-700;
+    }
+}
