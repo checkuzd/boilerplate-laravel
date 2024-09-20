@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin;
 
 use App\Models\Menu\Menu;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -37,7 +38,7 @@ class UpdateMenuName extends Component
         $this->toast('Menu Name updated successfully!');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.admin.update-menu-name');
     }

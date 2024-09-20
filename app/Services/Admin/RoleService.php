@@ -36,7 +36,7 @@ class RoleService
         return $data;
     }
 
-    public function storeUserRole($data)
+    public function storeUserRole($data): Role
     {
         $permissions = $data->only('permissions');
         $permissions = (isset($permissions['permissions'])) ? $permissions['permissions'] : null;
@@ -64,7 +64,7 @@ class RoleService
         $this->addAccessToRoles($role, $data->input('roles'));
     }
 
-    private function checkPermissions($permissions)
+    private function checkPermissions($permissions): bool|\Exception
     {
         if (isset($permissions)) {
             sort($permissions);
@@ -72,14 +72,14 @@ class RoleService
             $userPermissions = auth()->user()->getAllPermissions()->pluck('name')->sort()->values()->all();
 
             if (! empty(array_diff($permissions, $userPermissions))) {
-                throw new \Exception('Added Permission not found!');
+                throw new \Exception('Added invalid permission!');
             }
         }
 
         return true;
     }
 
-    private function checkWithRestrictedPermissions(Role $role, $requestedPermissions)
+    private function checkWithRestrictedPermissions(Role $role, $requestedPermissions): array
     {
         $rolePermissions = $role->getAllPermissions()->pluck('name');
         $restrictedPermissions = $rolePermissions->diff(auth()->user()->getAllPermissions()->pluck('name'))->toArray();

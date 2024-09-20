@@ -23,6 +23,12 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <form action="{{ route('admin.roles.store') }}" method="POST" class="mb-3">
                 @csrf
                 <div class="card">
@@ -53,7 +59,14 @@
                                         <div class="mb-3">
                                             @foreach ($permission->children as $childPermission)
                                             <div class="form-check form-check-inline">
-                                                <input type="checkbox" name="permissions[]" value="{{ $childPermission->name }}" class="form-check-input" id="{{ $childPermission->name }}">
+                                                <input 
+                                                    type="checkbox" 
+                                                    name="permissions[]" 
+                                                    value="{{ $childPermission->name }}" 
+                                                    class="form-check-input" 
+                                                    id="{{ $childPermission->name }}"
+                                                    @checked(is_array(old('permissions')) && in_array($childPermission->name, old('permissions')))
+                                                />
                                                 <label class="form-check-label" for="{{ $childPermission->name }}">{{ $childPermission->name }}</label>
                                             </div>
                                             @endforeach
@@ -73,6 +86,7 @@
                                                 value="{{ $role->id }}"
                                                 class="form-check-input"
                                                 id="{{ $role->name }}"
+                                                @checked(is_array(old('roles')) && in_array($role->id, old('roles')))
                                             />
                                             <label class="form-check-label" for="{{ $role->name }}">{{ $role->name }}</label>
                                         </div>

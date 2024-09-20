@@ -8,6 +8,8 @@ use App\Enums\RoleEnum;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -41,7 +43,7 @@ final class UserTable extends PowerGridComponent
         return [];
     }
 
-    public function datasource()
+    public function datasource(): Builder|Collection
     {
         $users = User::query()
             ->select(

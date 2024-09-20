@@ -7,11 +7,13 @@ namespace App\Http\Controllers\Admin\Menu;
 use App\Http\Controllers\Controller;
 use App\Models\Menu\MenuItem;
 use App\Models\Permission;
+use App\Models\Role;
 use App\Services\RouteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class MenuItemController extends Controller
@@ -69,14 +71,21 @@ class MenuItemController extends Controller
             'name' => 'required',
             'icon' => 'nullable',
             'route' => 'sometimes',
-            'permissions' => 'sometimes',
+            'permissions' => ['nullable', Rule::exists('permissions', 'id')],
         ]);
         $permissions = $request->only('permissions');
         $menuItem->update($request->except('permissions'));
-        $menuItem->permissions()->sync($permissions['permissions']);
+        $menuItem->permissions()->sync($permissions['permissions'] ?? null);
 
-        Cache::forget('menu-settings');
-        Cache::forget('menu-view-'.auth()->user()->getRoleId());
+        defer(
+            function () {
+                Cache::forget('menu-settings');
+                $roles = Role::select('id')->get();
+                $roles->each(function ($role) {
+                    Cache::forget('menu-view-'.$role->id);
+                });
+            }
+        )->always();
 
         $data = [
             'msg' => __('Menu Item updated successfully'),

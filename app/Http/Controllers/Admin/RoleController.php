@@ -56,7 +56,13 @@ class RoleController extends Controller
             'permissions' => 'sometimes',
         ]);
 
-        $role = $this->roleService->storeUserRole($request);
+        try {
+            $role = $this->roleService->storeUserRole($request);
+        } catch (\Exception $e) {
+            return back()
+                ->with(['error' => 'Please check the fields, if facing further issues contact us!'])
+                ->withInput($request->all());
+        }
 
         return to_route('admin.roles.edit', $role)->with('success', 'Role added successfully');
     }

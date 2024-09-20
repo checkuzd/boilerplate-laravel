@@ -41,7 +41,7 @@ final class PermissionTable extends PowerGridComponent
             ->add('roles', fn ($permission) => $this->showRoles($permission->roles));
     }
 
-    public function showRoles($roles)
+    public function showRoles($roles): string
     {
         $roleName = [];
         if ($roles) {
