@@ -29,7 +29,7 @@ class RoleController extends Controller
         return view('admin.role.index');
     }
 
-    public function create()
+    public function create(): View
     {
         $permissions = Permission::has('children');
         if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
@@ -61,14 +61,14 @@ class RoleController extends Controller
         return to_route('admin.roles.edit', $role)->with('success', 'Role added successfully');
     }
 
-    public function edit(Role $role)
+    public function edit(Role $role): View
     {
         $data = $this->roleService->getAccessiblePermissions($role);
 
         return view('admin.role.edit', $data);
     }
 
-    public function update(Request $request, Role $role)
+    public function update(Request $request, Role $role): RedirectResponse
     {
         $request->validate([
             'name' => 'required|unique:roles,name,'.$role->id,

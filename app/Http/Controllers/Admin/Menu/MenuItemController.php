@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\View;
 
 class MenuItemController extends Controller
 {
@@ -41,7 +42,7 @@ class MenuItemController extends Controller
         ]);
     }
 
-    public function edit(MenuItem $menuItem)
+    public function edit(MenuItem $menuItem): View
     {
         $routeService = new RouteService(
             method: 'GET',
@@ -62,7 +63,7 @@ class MenuItemController extends Controller
         return view('admin.ajax.menu.edit-menu-item', compact('menuItem', 'routes', 'permissions'));
     }
 
-    public function update(Request $request, MenuItem $menuItem)
+    public function update(Request $request, MenuItem $menuItem): JsonResponse
     {
         $validatedData = $request->validate([
             'name' => 'required',
@@ -85,7 +86,7 @@ class MenuItemController extends Controller
         return response()->json($data);
     }
 
-    public function destroy(MenuItem $menuItem)
+    public function destroy(MenuItem $menuItem): string
     {
         $menuItem->delete();
         Cache::forget('menu-settings');

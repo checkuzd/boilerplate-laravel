@@ -36,7 +36,7 @@ class MenuController extends Controller
         return to_route('admin.menus.edit', $menu)->with('success', 'Menu added successfully');
     }
 
-    public function edit(Menu $menu)
+    public function edit(Menu $menu): View
     {
         $menu->load(['menuItems' => fn ($query) => $query->whereNull('menu_item_id')->with('children')->orderBy('order', 'ASC')]);
 

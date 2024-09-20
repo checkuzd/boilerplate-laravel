@@ -10,6 +10,7 @@ use App\Notifications\PasswordReset;
 use Exception;
 use Illuminate\Auth\Events\PasswordReset as EventPasswordReset;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -22,7 +23,7 @@ class ResetPasswordController extends Controller
         return view('admin.auth.forgot-password');
     }
 
-    public function sendForgotPassword(Request $request)
+    public function sendForgotPassword(Request $request): RedirectResponse
     {
         $user = User::where(['email' => $request->email])
             ->status()
@@ -51,12 +52,12 @@ class ResetPasswordController extends Controller
             : back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);
     }
 
-    public function resetForgotPassword(Request $request)
+    public function resetForgotPassword(Request $request): View
     {
         return view('admin.auth.reset-password', ['request' => $request]);
     }
 
-    public function createNewPassword(Request $request)
+    public function createNewPassword(Request $request): RedirectResponse
     {
         $request->validate([
             'token' => ['required'],
