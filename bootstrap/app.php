@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\RoleEnum;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware(['web', 'guest'])
                 ->prefix('admin')
                 ->group(base_path('routes/auth.php'));
-            Route::middleware(['web', 'role:Super Admin'])
+            Route::middleware(['web', 'role:'.RoleEnum::SUPER_ADMIN->value])
                 ->prefix('developer')
                 ->group(base_path('routes/test.php'));
         },

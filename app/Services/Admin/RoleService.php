@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Admin;
 
+use App\Enums\RoleEnum;
 use App\Models\Permission;
 use App\Models\Role;
 
@@ -13,8 +14,8 @@ class RoleService
     {
         $data['restrictedPermissions'] = null;
         $permissions = Permission::has('children');
-        if (auth()->user()->hasRole('Super Admin')) {
-            $roles = new \stdClass();
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
+            $roles = new \stdClass;
             $roles->access_to = Role::all();
             $data['roles'] = $roles;
             $data['permissions'] = $permissions->with('children')->get();
@@ -39,7 +40,7 @@ class RoleService
     {
         $permissions = $data->only('permissions');
         $permissions = (isset($permissions['permissions'])) ? $permissions['permissions'] : null;
-        if (! auth()->user()->hasRole('Super Admin')) {
+        if (! auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $this->checkPermissions($permissions);
         }
 
@@ -54,7 +55,7 @@ class RoleService
     {
         $permissions = $data->only('permissions');
         $permissions = (isset($permissions['permissions'])) ? $permissions['permissions'] : null;
-        if (! auth()->user()->hasRole('Super Admin')) {
+        if (! auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $permissions = $this->checkWithRestrictedPermissions($role, $permissions);
         }
 
@@ -104,7 +105,7 @@ class RoleService
 
     private function addAccessToRoles(Role $role, $addAccessRoles): void
     {
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $role->access_to()->sync($addAccessRoles);
         } else {
             $roles = Role::currentUserCanManageRoles()->first();

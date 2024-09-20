@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Enums\MenuLocation;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Database\Eloquent\Model;
@@ -34,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
     public function initSuperAdmin(): void
     {
         Gate::before(function ($user, $ability) {
-            return $user->hasRole('Super Admin') ? true : null;
+            return $user->hasRole(RoleEnum::SUPER_ADMIN) ? true : null;
         });
 
         Gate::define('viewLogViewer', function (?User $user) {
@@ -42,14 +43,14 @@ class AppServiceProvider extends ServiceProvider
                 return true;
             }
 
-            return $user?->hasRole('Super Admin') ? true : false;
+            return $user?->hasRole(RoleEnum::SUPER_ADMIN) ? true : false;
         });
     }
 
     protected function registerAdminMenu(): void
     {
         View::composer(['layouts.partials.left-sidebar', 'admin.dashboard'], function ($view) {
-            $menuService = new MenuService();
+            $menuService = new MenuService;
 
             $view->with([
                 'menuAdminHTML' => $menuService->displayAdminMenu(MenuLocation::ADMIN),

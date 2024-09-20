@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
@@ -20,7 +21,7 @@ class RoleController extends Controller
     {
         $this->authorizeResource(Role::class, 'role');
 
-        $this->roleService = new RoleService();
+        $this->roleService = new RoleService;
     }
 
     public function index(): View
@@ -31,7 +32,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::has('children');
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::all();
             $permissions = $permissions->with('children')->get();
         } else {

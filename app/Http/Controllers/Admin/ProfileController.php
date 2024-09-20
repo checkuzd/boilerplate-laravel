@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateProfileRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -22,7 +21,7 @@ class ProfileController extends Controller
         $validatedData = $request->safe()->only(['first_name', 'last_name', 'email']);
 
         if ($request->input('password')) {
-            $validatedData['password'] = Hash::make($request->input('password'));
+            $validatedData['password'] = $request->input('password');
         }
 
         auth()->user()->update($validatedData);

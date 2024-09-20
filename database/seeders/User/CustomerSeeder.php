@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Database\Seeders\User;
 
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Closure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class CustomerSeeder extends Seeder
 {
-    private int $customerCount = 1000;
+    private int $customerCount = 100;
 
-    private string $userRole = 'customer';
+    private string $customerRole = RoleEnum::CUSTOMER->value;
 
     public function run(): void
     {
@@ -24,17 +24,17 @@ class CustomerSeeder extends Seeder
             'last_name' => '',
             'username' => 'customer',
             'email' => 'customer@test.com',
-            'password' => Hash::make('12345678'),
+            'password' => '12345678',
             'status' => true,
         ]);
 
-        $user->assignRole('customer');
+        $user->assignRole($this->customerRole);
 
         $this->command->warn(PHP_EOL.'Creating shop customers...');
         $customers = $this->withProgressBar(
             $this->customerCount,
             fn () => User::factory(1)
-                ->withRole($this->userRole)
+                ->withRole($this->customerRole)
                 ->create()
         );
         $this->command->info('Shop customers created.');
@@ -46,7 +46,7 @@ class CustomerSeeder extends Seeder
 
         $progressBar->start();
 
-        $items = new Collection();
+        $items = new Collection;
 
         foreach (range(1, $amount) as $i) {
             $items = $items->merge(

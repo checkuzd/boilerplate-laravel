@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Models\Role;
@@ -12,7 +13,6 @@ use App\Notifications\UserRegistered;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function create(): View
     {
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::all();
         } else {
             $roles = Role::currentUserCanManageRoles()->first();
@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         $validatedData = request()->only(['first_name', 'username', 'email', 'password', 'role']);
 
-        if (! auth()->user()->hasRole('Super Admin')) {
+        if (! auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::currentUserCanManageRoles()->first();
 
             $abilities = $roles->access_to()->pluck('id')->toArray();
@@ -56,7 +56,7 @@ class UserController extends Controller
         }
 
         if ($request->input('password')) {
-            $validatedData['password'] = Hash::make($request->input('password'));
+            $validatedData['password'] = $request->input('password');
         }
 
         $user = User::create($validatedData);
@@ -82,7 +82,7 @@ class UserController extends Controller
 
     public function edit(User $user): View
     {
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::all();
         } else {
             $roles = Role::currentUserCanManageRoles()->first();
@@ -96,7 +96,7 @@ class UserController extends Controller
     {
         $validatedData = request()->only(['first_name', 'last_name', 'username', 'email', 'role']);
 
-        if (! auth()->user()->hasRole('Super Admin')) {
+        if (! auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::currentUserCanManageRoles()->first();
 
             $abilities = $roles->access_to()->pluck('id')->toArray();
@@ -109,7 +109,7 @@ class UserController extends Controller
         }
 
         if ($request->input('password')) {
-            $validatedData['password'] = Hash::make($request->input('password'));
+            $validatedData['password'] = $request->input('password');
         }
 
         $user->update($validatedData);

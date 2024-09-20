@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUserRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|max:255|email|unique:users,email',
             'password' => 'required|min:8',
             'avatar' => 'image|max:1024|sometimes',
-            'role' => 'required|integer',
+            'role' => ['required', Rule::exists('roles', 'id')],
         ];
     }
 }

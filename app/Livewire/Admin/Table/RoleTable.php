@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Table;
 
+use App\Enums\RoleEnum;
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,9 +33,9 @@ final class RoleTable extends PowerGridComponent
     public function datasource(): Builder|Collection
     {
 
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::select('id', 'name')
-                ->where('name', '!=', 'Super Admin')
+                ->where('name', '!=', RoleEnum::SUPER_ADMIN)
                 ->get();
         } else {
             $roles = Role::select('id', 'name')->currentUserCanManageRoles()->first();
