@@ -5,29 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\Menu;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Menu\StoreMenuItemRequest;
+use App\Http\Requests\Admin\Menu\UpdateMenuItemRequest;
 use App\Models\Menu\MenuItem;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\RouteService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class MenuItemController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function store(StoreMenuItemRequest $request): JsonResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'menu_id' => 'required',
-            'type' => 'required',
-            'icon' => 'nullable',
-            'route' => 'nullable',
-            'permissions' => 'sometimes',
-        ]);
+        $validatedData = $request->validated();
 
         $validatedData['order'] = MenuItem::where('menu_id', $request->menu_id)
             ->whereNull('menu_item_id')
@@ -65,14 +58,8 @@ class MenuItemController extends Controller
         return view('admin.ajax.menu.edit-menu-item', compact('menuItem', 'routes', 'permissions'));
     }
 
-    public function update(Request $request, MenuItem $menuItem): JsonResponse
+    public function update(UpdateMenuItemRequest $request, MenuItem $menuItem): JsonResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'icon' => 'nullable',
-            'route' => 'sometimes',
-            'permissions' => ['nullable', Rule::exists('permissions', 'id')],
-        ]);
         $permissions = $request->only('permissions');
         $menuItem->update($request->except('permissions'));
         $menuItem->permissions()->sync($permissions['permissions'] ?? null);
@@ -80,10 +67,10 @@ class MenuItemController extends Controller
         defer(
             function () {
                 Cache::forget('menu-settings');
-                $roles = Role::select('id')->get();
-                $roles->each(function ($role) {
-                    Cache::forget('menu-view-'.$role->id);
-                });
+                // $roles = Role::select('id')->get();
+                // $roles->each(function ($role) {
+                //     Cache::forget('menu-view-'.$role->id);
+                // });
             }
         )->always();
 
@@ -99,7 +86,7 @@ class MenuItemController extends Controller
     {
         $menuItem->delete();
         Cache::forget('menu-settings');
-        Cache::forget('menu-view-'.auth()->user()->getRoleId());
+        // Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
         return 'Menu Item removed';
     }

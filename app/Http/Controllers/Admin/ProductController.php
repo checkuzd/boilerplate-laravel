@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreProductRequest;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -25,16 +26,10 @@ class ProductController extends Controller
         return view('admin.product.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreProductRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:250',
-            'status' => 'boolean',
-            'price' => 'required',
-            'old_price' => 'sometimes',
-            'stock' => 'required',
-            'stock_alert' => 'sometimes',
-        ]);
+        $validatedData = $request->validated();
+
         try {
             DB::transaction(function () use ($validatedData, $request) {
                 $product = Product::create($validatedData);

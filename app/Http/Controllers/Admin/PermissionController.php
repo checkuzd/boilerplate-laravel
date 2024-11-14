@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StorePermissionRequest;
+use App\Http\Requests\Admin\UpdatePermissionRequest;
 use App\Models\Permission;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
@@ -24,14 +25,9 @@ class PermissionController extends Controller
         return view('admin.permission.create', compact('permissions'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StorePermissionRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required|unique:permissions,name',
-            'permission_id' => 'nullable|exists:permissions,id',
-        ]);
-
-        $permission = Permission::create($validatedData);
+        $permission = Permission::create($request->validated());
 
         return to_route('admin.permissions.edit', $permission)->with('success', 'Permission added successfully');
     }
@@ -43,13 +39,8 @@ class PermissionController extends Controller
         return view('admin.permission.edit', compact('permission', 'permissions'));
     }
 
-    public function update(Request $request, Permission $permission): RedirectResponse
+    public function update(UpdatePermissionRequest $request, Permission $permission): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|unique:permissions,name,'.$permission->id,
-            'permission_id' => 'nullable|exists:permissions,id',
-        ]);
-
         $permission->name = $request->name;
         $permission->permission_id = $request->permission_id;
         $permission->save();

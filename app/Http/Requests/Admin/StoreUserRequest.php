@@ -17,10 +17,10 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|max:255|unique:users,username',
+            'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')],
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'email' => 'required|max:255|email|unique:users,email',
+            'email' => ['required', 'max:255', 'email', Rule::unique('users', 'email')],
             'password' => 'required|min:8',
             'avatar' => 'image|max:1024|sometimes',
             'role' => ['required', Rule::exists('roles', 'id')],

@@ -7,12 +7,12 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\UserRegistered;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
@@ -92,7 +92,7 @@ class UserController extends Controller
         return view('admin.user.edit', compact('user', 'roles'));
     }
 
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         $validatedData = request()->only(['first_name', 'last_name', 'username', 'email', 'role']);
 

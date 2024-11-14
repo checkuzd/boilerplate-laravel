@@ -54,7 +54,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <x-admin.input-error :messages="$errors->get('name')" />
+                                    <x-admin.input-error :messages="$errors->get('permission_id')" />
                                 </div>
 
                             </div> <!-- end col-->

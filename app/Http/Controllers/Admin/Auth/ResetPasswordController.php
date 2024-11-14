@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ResetPasswordRequest;
 use App\Models\User;
 use App\Notifications\PasswordReset;
 use Exception;
@@ -14,7 +15,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Password as RulesPassword;
 
 class ResetPasswordController extends Controller
 {
@@ -57,14 +57,8 @@ class ResetPasswordController extends Controller
         return view('admin.auth.reset-password', ['request' => $request]);
     }
 
-    public function createNewPassword(Request $request): RedirectResponse
+    public function createNewPassword(ResetPasswordRequest $request): RedirectResponse
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', RulesPassword::defaults()],
-        ]);
-
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {

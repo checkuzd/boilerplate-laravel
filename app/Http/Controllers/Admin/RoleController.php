@@ -6,12 +6,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreRoleRequest;
+use App\Http\Requests\Admin\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\Admin\RoleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -49,13 +50,8 @@ class RoleController extends Controller
         return view('admin.role.create', compact('permissions', 'roles'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreRoleRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'sometimes',
-        ]);
-
         try {
             $role = $this->roleService->storeUserRole($request);
         } catch (\Exception $e) {
@@ -74,13 +70,8 @@ class RoleController extends Controller
         return view('admin.role.edit', $data);
     }
 
-    public function update(Request $request, Role $role): RedirectResponse
+    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name,'.$role->id,
-            'permissions' => 'sometimes',
-        ]);
-
         // try {
         $this->roleService->updateUserRole($request, $role);
         // } catch (\Throwable $e) {
