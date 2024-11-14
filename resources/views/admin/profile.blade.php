@@ -98,4 +98,8 @@
             </form>
         </div>
     </div>
+    @section('scripts')
+        {{ Vite::useBuildDirectory('backend') }}
+        @vite('resources/backend/js/filepond.js')
+    @endsection
 </x-admin-layout>

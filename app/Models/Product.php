@@ -26,7 +26,7 @@ class Product extends Model implements HasMedia
             ->saveSlugsTo('slug');
     }
 
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }

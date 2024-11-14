@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Table;
 
+use App\Enums\RoleEnum;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -40,7 +43,7 @@ final class UserTable extends PowerGridComponent
         return [];
     }
 
-    public function datasource()
+    public function datasource(): Builder|Collection
     {
         $users = User::query()
             ->select(
@@ -58,7 +61,7 @@ final class UserTable extends PowerGridComponent
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('users.id', '!=', auth()->user()->id);
 
-        if (! auth()->user()->hasRole('Super Admin')) {
+        if (! auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::currentUserCanManageRoles()->first();
             $roles = $roles->access_to->pluck('id')->toArray();
 
@@ -133,7 +136,7 @@ final class UserTable extends PowerGridComponent
 
     public function filters(): array
     {
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::select('id', 'name')->get();
         } else {
             $roles = Role::currentUserCanManageRoles()->first();

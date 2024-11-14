@@ -72,7 +72,7 @@
                                         <option>Select</option>
                                         @foreach ($roles as $role)
                                         <option value="{{ $role->id }}"
-                                            {{ ($role->id==old('role')) ? 'selected' : '' }}>{{ $role->title }}</option>
+                                            {{ ($role->id==old('role')) ? 'selected' : '' }}>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                     <x-admin.input-error :messages="$errors->get('role')" />

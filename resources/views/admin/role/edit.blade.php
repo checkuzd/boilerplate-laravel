@@ -65,7 +65,7 @@
                                                     class="form-check-input"
                                                     id="{{ $childPermission->name }}"
                                                     {{ ($role->hasPermissionTo($childPermission->name)) ? 'checked' : '' }}
-                                                    @unlessrole('Super Admin')
+                                                    @unlessrole(\App\Enums\RoleEnum::SUPER_ADMIN)
                                                     {{ ($restrictedPermissions->contains($childPermission->id)) ? 'disabled' : '' }}
                                                     @endunlessrole
                                                 />

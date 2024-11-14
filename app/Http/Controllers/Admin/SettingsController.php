@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UpdateSettingsRequest;
 use App\Models\Setting;
 use App\Services\SettingsService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class SettingsController extends Controller
@@ -24,16 +24,9 @@ class SettingsController extends Controller
         return view('admin.settings');
     }
 
-    public function update(Request $request, SettingsService $settingsService): RedirectResponse
+    public function update(UpdateSettingsRequest $request, SettingsService $settingsService): RedirectResponse
     {
         $data = $request->except(['_token', '_method', 'logo', 'logo-sm', 'favicon']);
-
-        $request->validate([
-            'logo' => 'image|max:1024',
-            'logo-sm' => 'image|max:1024',
-            'favicon' => 'mimes:ico|max:1024',
-            'email_address' => 'required|email|max:100',
-        ]);
 
         if ($request->hasFile('logo')) {
             $settingsService->storeFile($request->file('logo'), 'logo.png');

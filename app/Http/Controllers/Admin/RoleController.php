@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreRoleRequest;
+use App\Http\Requests\Admin\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\Admin\RoleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -20,7 +22,7 @@ class RoleController extends Controller
     {
         $this->authorizeResource(Role::class, 'role');
 
-        $this->roleService = new RoleService();
+        $this->roleService = new RoleService;
     }
 
     public function index(): View
@@ -28,10 +30,10 @@ class RoleController extends Controller
         return view('admin.role.index');
     }
 
-    public function create()
+    public function create(): View
     {
         $permissions = Permission::has('children');
-        if (auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             $roles = Role::all();
             $permissions = $permissions->with('children')->get();
         } else {
@@ -48,32 +50,28 @@ class RoleController extends Controller
         return view('admin.role.create', compact('permissions', 'roles'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreRoleRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'sometimes',
-        ]);
-
-        $role = $this->roleService->storeUserRole($request);
+        try {
+            $role = $this->roleService->storeUserRole($request);
+        } catch (\Exception $e) {
+            return back()
+                ->with(['error' => 'Please check the fields, if facing further issues contact us!'])
+                ->withInput($request->all());
+        }
 
         return to_route('admin.roles.edit', $role)->with('success', 'Role added successfully');
     }
 
-    public function edit(Role $role)
+    public function edit(Role $role): View
     {
         $data = $this->roleService->getAccessiblePermissions($role);
 
         return view('admin.role.edit', $data);
     }
 
-    public function update(Request $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name,'.$role->id,
-            'permissions' => 'sometimes',
-        ]);
-
         // try {
         $this->roleService->updateUserRole($request, $role);
         // } catch (\Throwable $e) {

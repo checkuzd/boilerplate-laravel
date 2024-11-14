@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\Menu;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Menu\StoreMenuRequest;
 use App\Models\Menu\Menu;
 use App\Models\Menu\MenuItem;
 use App\Models\Permission;
@@ -24,19 +25,14 @@ class MenuController extends Controller
         return view('admin.menu.index', compact('menus'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreMenuRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'location' => 'string|nullable',
-        ]);
-
-        $menu = Menu::create($validatedData);
+        $menu = Menu::create($request->validated());
 
         return to_route('admin.menus.edit', $menu)->with('success', 'Menu added successfully');
     }
 
-    public function edit(Menu $menu)
+    public function edit(Menu $menu): View
     {
         $menu->load(['menuItems' => fn ($query) => $query->whereNull('menu_item_id')->with('children')->orderBy('order', 'ASC')]);
 
@@ -73,7 +69,7 @@ class MenuController extends Controller
         }
 
         Cache::forget('menu-settings');
-        Cache::forget('menu-view-'.auth()->user()->getRoleId());
+        // Cache::forget('menu-view-'.auth()->user()->getRoleId());
 
         return 'Menu Order updated successfully!';
     }

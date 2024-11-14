@@ -84,7 +84,7 @@
                                     <h4>User Role</h4>
                                     <select class="form-select mb-3" name="role">
                                         @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}" {{ ($user->getRoleId() == $role->id) ? 'selected' : '' }}>{{ $role->title }}</option>
+                                        <option value="{{ $role->id }}" {{ ($user->getRoleId() == $role->id) ? 'selected' : '' }}>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                     <x-admin.input-error :messages="$errors->get('role')" />

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use App\Enums\RoleEnum;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +51,7 @@ class SettingsHelper
 
     public static function checkPermission($permissions)
     {
-        if (auth()->user()->hasAnyPermission($permissions) || auth()->user()->hasRole('Super Admin')) {
+        if (auth()->user()->hasAnyPermission($permissions) || auth()->user()->hasRole(RoleEnum::SUPER_ADMIN)) {
             return true;
         }
     }

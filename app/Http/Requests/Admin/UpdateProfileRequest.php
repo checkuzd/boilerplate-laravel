@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -18,7 +19,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'email' => ['required', 'max:255', 'email', 'unique:users,email,'.auth()->user()->id],
+            'email' => ['required', 'max:255', 'email', Rule::unique('users')->ignore(auth()->user())],
             'password' => 'nullable|min:8|confirmed|required_unless:current_password,null',
             'current_password' => 'nullable|current_password|required_unless:password,null',
             'avatar' => 'image|max:1024|sometimes',

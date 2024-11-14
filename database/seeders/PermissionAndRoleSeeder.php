@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\RoleEnum;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
@@ -91,9 +92,11 @@ class PermissionAndRoleSeeder extends Seeder
             'name' => 'product-delete',
         ]);
 
-        Role::create(['name' => 'Super Admin']);
-        $admin = Role::create(['name' => 'Admin']);
-        $customer = Role::create(['name' => 'Customer']);
+        Role::create(['name' => RoleEnum::SUPER_ADMIN]);
+        $admin = Role::create(['name' => RoleEnum::ADMIN]);
+        $customer = Role::create(['name' => RoleEnum::CUSTOMER]);
+
+        $admin->access_to()->sync([$admin->id, $customer->id]);
 
         foreach ($admin_permission as $key => $permission) {
             $admin->givePermissionTo($permission->name);

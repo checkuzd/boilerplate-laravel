@@ -41,14 +41,14 @@ class RouteService
         $this->exceptPath = $exceptPath;
     }
 
-    public function getMethodRoutes($allRoutes)
+    public function getMethodRoutes($allRoutes): array
     {
         return collect($allRoutes)->map(function ($route) {
             return $this->getRouteInformation($route);
         })->filter()->all();
     }
 
-    protected function getRouteInformation(Route $route)
+    protected function getRouteInformation(Route $route): ?array
     {
         return $this->filterRoute([
             'domain' => $route->domain(),
@@ -60,6 +60,11 @@ class RouteService
         ]);
     }
 
+    /**
+     * Filter the route by URI and / or name.
+     *
+     * @return array|null
+     */
     protected function filterRoute(array $route)
     {
         if (($this->name && ! Str::contains((string) $route['name'], $this->name)) ||
@@ -82,29 +87,34 @@ class RouteService
         return $route;
     }
 
-    protected function isVendorRoute(Route $route)
+    protected function isVendorRoute(Route $route): bool
     {
         if ($route->action['uses'] instanceof \Closure) {
-            $path = (new \ReflectionFunction($route->action['uses']))
-                ->getFileName();
-        } elseif (is_string($route->action['uses']) &&
-                  str_contains($route->action['uses'], 'SerializableClosure')) {
+
+            $path = (new \ReflectionFunction($route->action['uses']))->getFileName();
+
+        } elseif (is_string($route->action['uses']) && str_contains($route->action['uses'], 'SerializableClosure')) {
+
             return false;
+
         } elseif (is_string($route->action['uses'])) {
+
             if ($this->isFrameworkController($route)) {
                 return false;
             }
 
-            $path = (new \ReflectionClass($route->getControllerClass()))
-                ->getFileName();
+            $path = (new \ReflectionClass($route->getControllerClass()))->getFileName();
+
         } else {
+
             return false;
+
         }
 
         return str_starts_with($path, base_path('vendor'));
     }
 
-    protected function isFrameworkController(Route $route)
+    protected function isFrameworkController(Route $route): bool
     {
         return in_array($route->getControllerClass(), [
             '\Illuminate\Routing\RedirectController',

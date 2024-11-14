@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin;
 
 use App\Models\Menu\Menu;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -23,7 +24,7 @@ class UpdateMenuLocation extends Component
         $this->location = (! is_null($menuLocation['location']) || $menuLocation['location']) ? explode(',', $menuLocation['location']) : [];
     }
 
-    public function updateLocation()
+    public function updateLocation(): void
     {
         $menuLocation = ($this->location) ? implode(',', $this->location) : '';
 
@@ -41,7 +42,7 @@ class UpdateMenuLocation extends Component
         $this->toast('Menu location updated successfully!');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.admin.update-menu-location');
     }

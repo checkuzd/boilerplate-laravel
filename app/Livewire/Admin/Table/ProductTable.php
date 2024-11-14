@@ -98,7 +98,7 @@ final class ProductTable extends PowerGridComponent
         return view('admin.dataTable.actions.model-actions', ['row' => $row, 'model' => 'product']);
     }
 
-    private function productInfo($product)
+    private function productInfo($product): string
     {
         return Blade::render('<x-admin.product-image image="'.$product->getFirstMediaUrl('product-images', 'thumb').'" productName="'.$product->name.'"/>');
     }
